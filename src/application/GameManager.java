@@ -22,7 +22,7 @@ public class GameManager {
 	// public static HandWrapper current_hand;
 	public static ArrayList<Dealer> dealers;
 
-	// public Dealer gameDealer;
+	public Dealer game_dealer;
 	// public Player player;
 	public static ArrayList<GamePlayer> game_players;
 
@@ -38,7 +38,7 @@ public class GameManager {
 		this.setUpDealers();
 
 		// shuffle and deal
-		//this.startGame();
+		// this.startGame();
 
 		// this.gameDealer.dealhand();
 	}
@@ -51,8 +51,9 @@ public class GameManager {
 
 	// The Deck
 	private void setupDeck() {
-		System.out.println("Setting up the deck...");
+		System.out.println("Setting up the game deck:");
 
+		System.out.println("\t" + number_of_decks + " decks are being used...");
 		// create a new game deck, which will consist of
 		// number_of_decks # of real decks of cards
 		game_deck = new ArrayList<>();
@@ -64,8 +65,10 @@ public class GameManager {
 		}
 
 		// and finally shuffle the game deck
+		System.out.println("\tShuffling the deck...");
 		Collections.shuffle(game_deck);
-		System.out.println("Shuffling the deck...");
+		System.out.println("\tDeck shuffled...");
+		System.out.println("\tGame deck setup successful!");
 
 	}
 
@@ -89,8 +92,10 @@ public class GameManager {
 
 		// set gameDealer to a random gameDealer
 		GamePlayer dealer = GameManager.dealers.get((int) (Math.random() * GameManager.dealers.size()));
+		this.game_dealer = (Dealer)dealer;
 		// add the dealer to the list last so it will be dealt last
-		GameManager.game_players.add(dealer);
+		GameManager.game_players.add(this.game_dealer);
+		System.out.println("Dealer added successfully!");
 	}
 
 	private void dealCards() {
@@ -102,16 +107,17 @@ public class GameManager {
 			for (GamePlayer p : game_players) {
 				// always take the top card off the deck - index 0
 				int cardIndex = 0;
-				
+
 				// add the card to the player's hand
 				Card dealtCard = game_deck.get(cardIndex);
 				p.hand.addCard(dealtCard);
-				
+
 				// and remove the card from the game_deck
 				game_deck.remove(cardIndex);
-				
+
 			}
 		}
+		System.out.println("Cards dealt successfully!");
 	}
 
 	private void setUpSuits() {

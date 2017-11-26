@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public abstract class GamePlayer {
 
-	String name;
+	public String name;
 	//ArrayList<Card> currentHand;
 	public Hand hand;
 	

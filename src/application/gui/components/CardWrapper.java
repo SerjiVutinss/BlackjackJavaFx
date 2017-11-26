@@ -30,7 +30,7 @@ public class CardWrapper extends Button {
 		super();
 		this.card = card;
 		
-		this.setMinSize(this.card.img.getWidth(), this.card.img.getHeight());		
+		this.setMinSize(this.card.img.getWidth()/2, this.card.img.getHeight()/2);		
 
 		this.setBorder(new Border(
 				new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(10), BorderWidths.DEFAULT)));
@@ -38,7 +38,6 @@ public class CardWrapper extends Button {
 		//ImageView iView = new ImageView(this.card.img);
 		//iView.setFitWidth(80);
 		//iView.setPreserveRatio(true);
-
 		this.setBackground(
 				new Background(
 						new BackgroundImage(
