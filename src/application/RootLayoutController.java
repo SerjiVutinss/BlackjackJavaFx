@@ -1,9 +1,6 @@
 package application;
 
-import application.gui.components.CardWrapper;
 import application.gui.components.GamePlayerWrapper;
-import application.gui.components.HandWrapper;
-import application.models.Card;
 import application.models.GamePlayer;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
@@ -18,12 +15,22 @@ public class RootLayoutController {
 	@FXML
 	AnchorPane apAppRoot;
 
+	// the top, header row
+	@FXML
+	HBox hbHeader;
+
+	// the area the dealer will sit
+	@FXML
+	VBox vbDealerSeat;
+
 	// main content pane within apAppRoot
+	// hbPlayerSeats is a child
 	@FXML
 	private VBox vbContentRoot;
-	
+
+	// the area in which Players are added
 	@FXML
-	private HBox hbGamePlayer;
+	private HBox hbPlayerSeats;
 
 	public RootLayoutController() {
 	}
@@ -41,16 +48,9 @@ public class RootLayoutController {
 
 	@FXML
 	private void updateHands() {
-		HandWrapper hbHand;
+		this.hbPlayerSeats.getChildren().clear();
 		for (GamePlayer p : GameManager.game_players) {
-			
-			this.hbGamePlayer.getChildren().add(new GamePlayerWrapper(p));
-
-//			for (Card c : p.hand.cards) {
-//				hbHand.addCardWrapper(new CardWrapper(c));
-//			}
-//			hbGamePlayer.getChildren().add(hbHand);
-			//vbContentRoot.getChildren().add(vbGamePlayer);
+			this.hbPlayerSeats.getChildren().add(new GamePlayerWrapper(p));
 		}
 	}
 }

@@ -3,6 +3,7 @@ package application;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import application.gui.components.GamePlayerWrapper;
 import application.gui.components.HandWrapper;
 import application.models.Card;
 import application.models.Dealer;
@@ -10,6 +11,8 @@ import application.models.GamePlayer;
 import application.models.SeatedPlayer;
 
 public class GameManager {
+
+	RootLayoutController root;
 
 	private static ArrayList<String> suitList;
 	public static ArrayList<Card> game_deck;
@@ -30,6 +33,10 @@ public class GameManager {
 		this(1);
 	}
 
+	public void setRootLayoutController(RootLayoutController rootLayout) {
+		this.root = rootLayout;
+	}
+
 	public GameManager(int numDecks) {
 		// set up the lists
 		// this.setUpDealers();
@@ -46,7 +53,7 @@ public class GameManager {
 	public void startGame() {
 		this.setupDeck();
 		this.setupPlayers();
-		this.dealCards();
+		this.dealHands();
 	}
 
 	// The Deck
@@ -92,13 +99,13 @@ public class GameManager {
 
 		// set gameDealer to a random gameDealer
 		GamePlayer dealer = GameManager.dealers.get((int) (Math.random() * GameManager.dealers.size()));
-		this.game_dealer = (Dealer)dealer;
+		this.game_dealer = (Dealer) dealer;
 		// add the dealer to the list last so it will be dealt last
 		GameManager.game_players.add(this.game_dealer);
 		System.out.println("Dealer added successfully!");
 	}
 
-	private void dealCards() {
+	private void dealHands() {
 		// dealer will be last element in list, so
 		// for each card to be dealt,
 		int cardsToDeal = 2;
@@ -118,6 +125,19 @@ public class GameManager {
 			}
 		}
 		System.out.println("Cards dealt successfully!");
+	}
+
+	public static void dealCard(GamePlayerWrapper gamePlayerWrapper) {
+
+		gamePlayerWrapper.gamePlayer.addCardToHand(game_deck.get(0));
+		game_deck.remove(0);
+		GamePlayerWrapper.updateHandUI(gamePlayerWrapper);
+
+		for (Card c : gamePlayerWrapper.gamePlayer.hand.cards) {
+			System.out.println(c.fileName);
+		}
+
+		System.out.println("Card dealt!");
 	}
 
 	private void setUpSuits() {

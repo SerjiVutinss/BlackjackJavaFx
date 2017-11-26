@@ -4,8 +4,14 @@ import application.models.Card;
 import application.models.Hand;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 public class HandWrapper extends VBox {
 
@@ -31,16 +37,18 @@ public class HandWrapper extends VBox {
 		this.getChildren().add(hbCardWrapperSlots);
 		this.getChildren().add(hbHandScore);
 
+		this.setBorder(new Border(
+				new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(10), BorderWidths.DEFAULT)));
+		
 		this.initialize();
+	}
+
+	private void initialize() {
+		this.updateHand();
 	}
 
 	public void addCard(Card card) {
 		this.hand.addCard(card);
-		this.updateHand();
-	}
-
-	private void initialize() {
-		this.setMinWidth(150 * this.hand.cards.size());
 		this.updateHand();
 	}
 

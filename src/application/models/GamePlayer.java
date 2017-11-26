@@ -17,6 +17,9 @@ public abstract class GamePlayer {
 	abstract String getName();
 	
 	public void addCardToHand(Card c) {
+		
+		this.hand.cards.add(c);
+		
 	}
 	
 	abstract void clearHand();
