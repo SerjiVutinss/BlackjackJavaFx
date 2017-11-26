@@ -1,0 +1,112 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Marketplace
+    Explore
+
+    @SerjiVutinss
+
+2,315
+57,972
+
+    25,736
+
+github/gitignore
+Code
+Pull requests 167
+Projects 0
+Insights
+gitignore/Global/Eclipse.gitignore
+0674ff5 on Mar 28
+@raeglan raeglan .project and .classpath should be inside VC
+@sherzodv
+@tyutyutyu
+@shiftkey
+@aroben
+@Utumno
+@sveyret
+@segfly
+@drasolka
+@rlee287
+@raeglan
+@mimibar
+@fhemberger
+@leandrodeleite
+@jcarsique
+@harshadsabne
+@gAmUssA
+@DenisGorbachev
+@pangratz
+@defunkt
+@arinto
+@apetresc
+@alexkaratarakis
+51 lines (37 sloc) 684 Bytes
+
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+# .settings/
+.loadpath
+.recommenders
+
+# External tool builders
+.externalToolBuilders/
+
+# Locally stored "Eclipse launch configurations"
+*.launch
+
+# PyDev specific (Python IDE for Eclipse)
+*.pydevproject
+
+# CDT-specific (C/C++ Development Tooling)
+.cproject
+
+# Java annotation processor (APT)
+.factorypath
+
+# PDT-specific (PHP Development Tools)
+.buildpath
+
+# sbteclipse plugin
+.target
+
+# Tern plugin
+.tern-project
+
+# TeXlipse plugin
+.texlipse
+
+# STS (Spring Tool Suite)
+.springBeans
+
+# Code Recommenders
+.recommenders/
+
+# Scala IDE specific (Scala & Java development for Eclipse)
+.cache-main
+.scala_dependencies
+.worksheet
+
+    © 2017 GitHub, Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
