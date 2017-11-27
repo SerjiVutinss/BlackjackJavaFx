@@ -10,11 +10,26 @@ import javafx.scene.layout.VBox;
 public class InputPanel extends VBox {
 
 	HBox hbButtons;
+	Button btnStand;
 	Button btnHit;
 
 	public InputPanel(GamePlayerWrapper gamePlayerWrapper) {
 
 		this.hbButtons = new HBox();
+		
+		this.btnStand= new Button("Stand");
+		this.btnStand.setText("Stand");
+		this.hbButtons.getChildren().add(btnStand);
+		
+		btnStand.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				
+				// handle the stand event
+				//GameManager.handleHit(gamePlayerWrapper);
+			}
+		});
 		
 		btnHit = new Button("Hit");
 		btnHit.setText("Hit!");
@@ -24,9 +39,9 @@ public class InputPanel extends VBox {
 			
 			@Override
 			public void handle(ActionEvent event) {
-				// give the player a new card from the top of the deck
-								
-				GameManager.dealCard(gamePlayerWrapper);
+				
+				// handle the hit event
+				GameManager.handleHit(gamePlayerWrapper);
 			}
 		});
 		

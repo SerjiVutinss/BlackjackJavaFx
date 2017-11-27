@@ -25,8 +25,8 @@
                         </Label>
                      </children>
                   </HBox>
+                  <HBox fx:id="hbDealerSeat" alignment="CENTER" />
                   <HBox fx:id="hbPlayerSeats" alignment="CENTER" />
-                  <HBox alignment="CENTER" />
                </children></VBox>
          </children></AnchorPane>
    </center>

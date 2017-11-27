@@ -16,7 +16,7 @@ public class Card {
 	public String full_path_to_img;
 	public Image img;
 	public boolean isAce = false;
-
+	
 	public Card(String suit, int rank) {
 
 		this.suit = suit;

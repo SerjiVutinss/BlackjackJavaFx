@@ -5,18 +5,18 @@ import application.models.Hand;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Border;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
-public class HandWrapper extends VBox {
+public class HandWrapper extends FlowPane {
 
 	Hand hand;
-	HBox hbCardWrapperSlots;
+	public FlowPane hbCardWrapperSlots;
 	HBox hbHandScore;
 
 	Label lblHandScore;
@@ -27,7 +27,7 @@ public class HandWrapper extends VBox {
 		HandWrapper.setMargin(this, new Insets(50, 25, 50, 25));
 
 		// add the card wrapper row
-		this.hbCardWrapperSlots = new HBox();
+		this.hbCardWrapperSlots = new FlowPane();
 		// and the details row
 		this.hbHandScore = new HBox();
 		this.lblHandScore = new Label();
@@ -56,6 +56,8 @@ public class HandWrapper extends VBox {
 		this.hbCardWrapperSlots.getChildren().clear();
 		for (Card card : this.hand.cards) {
 			this.totalScore += card.cardValue;
+			this.hbCardWrapperSlots.setMinWidth(card.img.getWidth() * 2 + 10);
+			this.hbCardWrapperSlots.setMinHeight(card.img.getHeight());
 			this.hbCardWrapperSlots.getChildren().add(new CardWrapper(card));
 		}
 		this.displayTotalScore(this.totalScore);
