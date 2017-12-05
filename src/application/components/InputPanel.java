@@ -1,4 +1,4 @@
-package application.gui.components;
+package application.components;
 
 import application.GameManager;
 import javafx.event.ActionEvent;

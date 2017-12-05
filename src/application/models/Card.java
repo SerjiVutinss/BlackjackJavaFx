@@ -16,8 +16,12 @@ public class Card {
 	public String full_path_to_img;
 	public Image img;
 	public boolean isAce = false;
+	public boolean isFaceDown = false;
+	
 	
 	public Card(String suit, int rank) {
+		
+		
 
 		this.suit = suit;
 		this.cardRank = rank; // 1 -13 - Ace to King
@@ -26,6 +30,7 @@ public class Card {
 
 		this.name = this.getCardName();
 		this.fileName = this.name + "_of_" + this.suit;
+		
 		this.setImage();
 
 	}

@@ -1,7 +1,10 @@
 package application;
 
-import application.gui.components.GamePlayerWrapper;
+import application.components.DealerWrapper;
+import application.components.GamePlayerWrapper;
+import application.components.SeatedPlayerWrapper;
 import application.models.GamePlayer;
+import application.models.SeatedPlayer;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -61,12 +64,12 @@ public class RootLayoutController {
 
 		this.hbDealerSeat.getChildren().add(imgView);
 
-		this.hbDealerSeat.getChildren().add(new GamePlayerWrapper(GameManager.game_dealer));
+		this.hbDealerSeat.getChildren().add(new DealerWrapper(GameManager.game_dealer));
 
 		this.hbPlayerSeats.getChildren().clear();
 		for (GamePlayer p : GameManager.game_players) {
 			if (p != GameManager.game_dealer) {
-				this.hbPlayerSeats.getChildren().add(new GamePlayerWrapper(p));
+				this.hbPlayerSeats.getChildren().add(new SeatedPlayerWrapper(p));
 			}
 		}
 	}

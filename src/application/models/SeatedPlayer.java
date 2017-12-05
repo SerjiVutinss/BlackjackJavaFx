@@ -2,7 +2,7 @@ package application.models;
 
 public class SeatedPlayer extends GamePlayer {
 	
-	double balance;
+	public double balance;
 
 	public SeatedPlayer(String name, double balance) {
 		super(name);

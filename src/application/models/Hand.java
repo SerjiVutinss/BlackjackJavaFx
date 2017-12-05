@@ -5,10 +5,7 @@ import java.util.ArrayList;
 public class Hand {
 
 	public ArrayList<Card> cards;
-
-//	public Hand(ArrayList<Card> cards) {
-//		this.cards = cards;
-//	}
+	public boolean hasHit = false;
 
 	public Hand() {
 		this.cards = new ArrayList<>();
@@ -20,7 +17,6 @@ public class Hand {
 	}
 
 	public void addCardToHand(Card dealtCard) {
-		// TODO Auto-generated method stub
-		
+				
 	}
 }
