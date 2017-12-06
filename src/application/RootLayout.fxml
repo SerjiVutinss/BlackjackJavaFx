@@ -32,7 +32,7 @@
                   <HBox fx:id="hbDealerSeat" alignment="CENTER" />
                   <HBox fx:id="hbPot" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Label text="The Pot" />
+                        <Label fx:id="lblThePot" text="The Pot" />
                      </children>
                   </HBox>
                   <HBox fx:id="hbPlayerSeats" alignment="CENTER" />
@@ -62,9 +62,9 @@
       </MenuBar>
    </top>
    <left>
-      <Pane fx:id="pWelcome" prefHeight="551.0" prefWidth="264.0" BorderPane.alignment="CENTER">
+      <Pane fx:id="pWelcome" prefHeight="551.0" prefWidth="246.0" BorderPane.alignment="CENTER">
          <children>
-            <VBox prefHeight="82.0" prefWidth="264.0">
+            <VBox fx:id="vbWelcome" prefHeight="82.0" prefWidth="264.0">
                <children>
                   <Label prefHeight="37.0" prefWidth="112.0" text="Welcome">
                      <font>
@@ -87,6 +87,11 @@
                         <Button fx:id="btnStartGame" mnemonicParsing="false" onAction="#startGame" text="Start" />
                      </children>
                   </HBox>
+               </children>
+            </VBox>
+            <VBox fx:id="vbGameControls" layoutY="92.0" prefHeight="459.0" prefWidth="246.0">
+               <children>
+                  <Button fx:id="btnNewHand" mnemonicParsing="false" onAction="#newHand" text="New Hand" />
                </children>
             </VBox>
          </children>

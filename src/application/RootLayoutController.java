@@ -7,6 +7,7 @@ import application.models.SeatedPlayer;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -19,6 +20,9 @@ public class RootLayoutController {
 	// root element of RootLayout.fxml
 	@FXML
 	AnchorPane apAppRoot;
+	
+	@FXML
+	public Label lblThePot;
 
 	@FXML
 	TextField tfPlayerName;
@@ -29,9 +33,18 @@ public class RootLayoutController {
 	// the top, header row
 	@FXML
 	HBox hbHeader;
+	
+	@FXML
+	VBox vbWelcome;
+	
+	@FXML
+	public VBox vbGameControls;
 
 	@FXML
 	Button btnStartGame;
+	
+	@FXML
+	Button btnNewHand;
 
 	// the area the dealer will sit
 	@FXML
@@ -45,6 +58,8 @@ public class RootLayoutController {
 	// the area in which Players are added
 	@FXML
 	public HBox hbPlayerSeats;
+	
+	GameManager gm;
 
 	public GamePlayerWrapper dealerWrapper;
 	public SeatedPlayerWrapper seatedPlayer;
@@ -56,6 +71,7 @@ public class RootLayoutController {
 	private void initialize() {
 		// this.tfInput.setText("Hello World!");
 		// this.updateHands();
+		this.vbGameControls.setVisible(false);
 		this.vbContentRoot.setVisible(false);
 	}
 
@@ -70,16 +86,26 @@ public class RootLayoutController {
 		if (this.tfPlayerName.getText().length() > 0) {
 
 			System.out.println("Button clicked!");
-			this.pWelcome.setVisible(false);
-			this.pWelcome.setMaxWidth(0);
+			this.vbWelcome.setVisible(false);
+			this.vbWelcome.setMaxWidth(0);
+			
+			//this.vbGameControls.setVisible(true);
+			
 			this.vbContentRoot.setVisible(true);
 
-			GameManager gm = new GameManager(new SeatedPlayer(this.tfPlayerName.getText()));
-			gm.startGame();
+			this.gm = new GameManager(this, new SeatedPlayer(this.tfPlayerName.getText()));
+			this.gm.startGame();
 
 			this.updateHands();
 
 		}
+	}
+	
+	@FXML
+	public void newHand() {
+		this.vbGameControls.setVisible(false);
+		gm.newHand();
+		this.updateHands();
 	}
 
 	@FXML

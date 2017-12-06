@@ -10,12 +10,12 @@ import application.components.SeatedPlayerWrapper;
 import application.models.Card;
 import application.models.Dealer;
 import application.models.GamePlayer;
-import application.models.SeatedPlayer;
+import application.models.Hand;
 
 public class GameManager {
 
 	// this is used to store a reference to the RootLayoutController instance
-	static RootLayoutController root;
+	static RootLayoutController rootLayout;
 
 	// maximum hand score, any hand exceeding this
 	// value will be mucked
@@ -50,14 +50,17 @@ public class GameManager {
 	public static GamePlayerWrapper activeGamePlayerWrapper;
 
 	// the GamePlayer is the human player, added through the welcome pane
-	public GameManager(GamePlayer p) {
+	public GameManager(RootLayoutController rootLayout, GamePlayer p) {
 		// the default constructor
 		// this calls the next constructor and supplies the
 		// parameter 1 which sets up just one deck
-		this(p, 1);
+		this(rootLayout, p, 1);
 	}
 
-	public GameManager(GamePlayer p, int numDecks) {
+	public GameManager(RootLayoutController rootLayout, GamePlayer p, int numDecks) {
+		// set the rootLayout reference
+		GameManager.rootLayout = rootLayout;
+
 		// set the player variable
 		player = p;
 		// assign the number of decks to be used - used in the setupDeck() method
@@ -66,7 +69,7 @@ public class GameManager {
 		this.setUpSuits();
 		this.setUpDealers();
 	}
-	
+
 	// method to start a new game
 	public void startGame() {
 		// create and shuffle a new deck
@@ -117,10 +120,15 @@ public class GameManager {
 		GameManager.game_dealer = (Dealer) dealer;
 		System.out.println("Dealer added successfully!");
 	}
+	
+	private static void clearHands() {
+		game_dealer.hand=new Hand();
+		player.hand=new Hand();
+	}
 
-	private void dealHands() {
+	private static void dealHands() {
 		// dealer will be last element in list, so
-		// for each card to be dealt,
+		// for each card to be dealt,		
 		for (int i = 0; i < NUM_START_CARDS; i++) {
 
 			// for (GamePlayer p : game_players) {
@@ -163,10 +171,9 @@ public class GameManager {
 			// remove the hand from the table
 			gamePlayerWrapper.gamePlayer.hand = null;
 			gamePlayerWrapper.removeHand();
-			
-			
+
 			// end?
-			
+
 		} else {
 			System.out.println("Stand or Hit?");
 		}
@@ -178,17 +185,83 @@ public class GameManager {
 		if (gamePlayerWrapper.getClass() == SeatedPlayerWrapper.class) {
 			// player has stood, end their turn
 			// and handle the dealer's turn
-			
-			
-		} else {
+
+			try {
+				handleDealerTurn();
+			} catch (InterruptedException e) {
+				// TODO
+			}
 		}
 	}
 
-	public static void handleDealerTurn() {
+	public static void handleDealerTurn() throws InterruptedException {
 		// GamePlayer dealer = (Dealer)GameManager.game_players.get(0);
-		DealerWrapper dealerWrapper = (DealerWrapper) root.dealerWrapper;
-		dealerWrapper.gamePlayer.addCardToHand(GameManager.game_deck.get(0));
+		DealerWrapper dealerWrapper = (DealerWrapper) rootLayout.dealerWrapper;
+
+		// turn the dealer's hole card
 		dealerWrapper.update();
+
+		// check the dealer's score and hit if it is below 17
+		while (dealerWrapper.gamePlayer.hand.getScore() < Dealer.MUST_EQUAL) {
+			// give the dealer a card
+			dealerWrapper.gamePlayer.addCardToHand(GameManager.game_deck.get(0));
+			GameManager.game_deck.remove(0);
+
+//			Thread.sleep(500);
+
+			dealerWrapper.handWrapper.update();
+			Thread.sleep(500);
+			dealerWrapper.update();
+		}
+		
+//		dealerWrapper.update();
+		
+		dealerWrapper.handWrapper.update();
+//
+		
+		int playerScore = player.hand.getScore();
+		
+		// if the dealer has 21 in two cards, automatically wins
+		if(game_dealer.hand.getScore() == MAX_SCORE && game_dealer.hand.cards.size() == 2) {
+			rootLayout.lblThePot.setText("Dealer won");	
+		}
+		else if(player.hand.getScore() <= MAX_SCORE && player.hand.getScore() > game_dealer.hand.getScore()) {
+			rootLayout.lblThePot.setText("Player won");
+		} else if (game_dealer.hand.getScore() <= MAX_SCORE && game_dealer.hand.getScore() > player.hand.getScore()){
+			rootLayout.lblThePot.setText("Dealer won");
+		} else {
+			rootLayout.lblThePot.setText("Push");
+		}
+		
+//		if(player.hand.getScore() <= MAX_SCORE && player.hand.getScore() > game_dealer.hand.getScore()) {
+//			
+//			rootLayout.lblThePot.setText("Player won");
+//		} else {
+//			rootLayout.lblThePot.setText("Dealer won");
+//		}
+		
+		//if(game_dealer.hand.getScore() <= MAX_SCORE && game_dealer)
+		
+//		System.out.println("Dealing new hand");
+//
+//		Thread.sleep(500);
+//		game_dealer.hand=new Hand();
+//		player.hand=new Hand();
+//		Thread.sleep(500);
+//		dealHands();
+//		Thread.sleep(500);
+		//rootLayout.updateHands();
+		
+		rootLayout.vbGameControls.setVisible(true);
+
+	}
+	
+
+	
+	public void newHand() {
+		game_dealer.hand=new Hand();
+		player.hand=new Hand();
+		dealHands();
 	}
 
 	public static void dealCard(GamePlayerWrapper gamePlayerWrapper) {

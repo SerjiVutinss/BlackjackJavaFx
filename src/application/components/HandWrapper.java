@@ -81,7 +81,7 @@ public class HandWrapper extends FlowPane implements IUpdateable {
 		// clear all cardWrapper elements from the component
 		this.hbCardWrapperSlots.getChildren().clear();
 		
-		// re add all cardWrapper elements because new cards have been added
+		// re-add all cardWrapper elements because new cards have been added
 		for (Card card : this.hand.cards) {
 
 //			this.hbCardWrapperSlots.setMinWidth(card.img.getWidth() * 2 + 10);
