@@ -3,8 +3,10 @@ package application;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import application.components.DealerWrapper;
 import application.components.GamePlayerWrapper;
 import application.components.HandWrapper;
+import application.components.SeatedPlayerWrapper;
 import application.models.Card;
 import application.models.Dealer;
 import application.models.GamePlayer;
@@ -12,40 +14,51 @@ import application.models.SeatedPlayer;
 
 public class GameManager {
 
-	RootLayoutController root;
+	// this is used to store a reference to the RootLayoutController instance
+	static RootLayoutController root;
 
-	public static int handNumber = 0;
-	
+	// maximum hand score, any hand exceeding this 
+	// value will be mucked
 	public static final int MAX_SCORE = 21;
+	// each player is dealt this number of cards at the start of each round
 	public static final int NUM_START_CARDS = 2;
 
+	// a list of suits which is used to build (each) deck
 	private static ArrayList<String> suitList;
+	// the number of decks which are used to build the final game deck
+	public static int number_of_decks;
+	// used to store the built game deck - could be any number of decks
+	// the game deck is shuffled at the start of a new game but not a new round
 	public static ArrayList<Card> game_deck;
+
+	// the actual hands in each round
 	public static ArrayList<HandWrapper> game_hands;
 
 	// public static ArrayList<GamePlayer> players;
 
-	public static int number_of_decks;
 
 	// public static HandWrapper current_hand;
 	public static ArrayList<Dealer> dealers;
 
 	public static Dealer game_dealer;
 	// public Player player;
-	public static ArrayList<GamePlayer> game_players;
+	//public static ArrayList<GamePlayer> game_players;
+	
+	public static GamePlayer player;
+	
+	public static ArrayList<GamePlayerWrapper> game_player_wrappers;
 
 	public static GamePlayerWrapper activeGamePlayerWrapper;
 
 	public GameManager() {
+		// the default constructor
+		// this calls the next constructor and supplies the 
+		// parameter 1 which sets up just one deck
 		this(1);
-		//this.game_players = new ArrayList<GamePlayer>();
-	}
-
-	public void setRootLayoutController(RootLayoutController rootLayout) {
-		this.root = rootLayout;
 	}
 
 	public GameManager(int numDecks) {
+		// 
 		number_of_decks = numDecks;
 		// set up the lists
 		this.setUpSuits();
@@ -53,18 +66,18 @@ public class GameManager {
 
 		// shuffle and deal
 		this.startGame();
+	}
 
-		// this.gameDealer.dealhand();
+	// setter which is used to set the rootLayout from wrapper class(es)
+	public void setRootLayoutController(RootLayoutController rootLayout) {
+		root = rootLayout;
 	}
 
 	public void startGame() {
 		this.setupDeck();
 		this.setupPlayers();
 		this.dealHands();
-	}
-	
-	public void nextTurn() {
-		
+
 	}
 
 	// The Deck
@@ -103,18 +116,20 @@ public class GameManager {
 	// Players
 	private void setupPlayers() {
 		// create a new list of players
-		 game_players = new ArrayList<>();
+		//game_players = new ArrayList<>();
+		game_player_wrappers = new ArrayList<>();
 		// and add a player
-		GamePlayer seat1 = new SeatedPlayer("Justin", 234);
-		GameManager.game_players.add(seat1);
+		player = new SeatedPlayer("Justin", 234);
+		//GameManager.game_players.add(seat1);
 
 		// set gameDealer to a random gameDealer
 		Dealer dealer = GameManager.dealers.get((int) (Math.random() * GameManager.dealers.size()));
 		GameManager.game_dealer = (Dealer) dealer;
-		GameManager.game_players.add(game_dealer);
+		//GameManager.game_players.add(game_dealer);
 		// add the dealer to the list last so it will be dealt last
 		// GameManager.game_players.add(this.game_dealer);
 		System.out.println("Dealer added successfully!");
+		
 	}
 
 	private void dealHands() {
@@ -122,17 +137,17 @@ public class GameManager {
 		// for each card to be dealt,
 		for (int i = 0; i < NUM_START_CARDS; i++) {
 
-			for (GamePlayer p : game_players) {
+			//for (GamePlayer p : game_players) {
 				// always take the top card off the deck - index 0
 				int cardIndex = 0;
 				// add the card to the player's hand
 				Card dealtCard = game_deck.get(cardIndex);
-				p.hand.addCard(dealtCard);
+				player.hand.addCard(dealtCard);
 
 				// and remove the card from the game_deck
 				game_deck.remove(cardIndex);
 
-			}
+			//}
 		}
 		System.out.println("Cards dealt successfully!");
 	}
@@ -166,29 +181,44 @@ public class GameManager {
 
 	public static void handleStand(GamePlayerWrapper gamePlayerWrapper) {
 		// handle the stand event
+		if(gamePlayerWrapper.getClass() == SeatedPlayerWrapper.class) {
+			// player has stood, move on to dealer
+			
+			
+			// handle the dealer's turn
+		} else {
+			// dealer has stood, deal a new hand
+		}
 
 	}
 
-	public static void setPlayerTurn(GamePlayerWrapper gamePlayerWrapper) {
-		// get the player's place in the list
-		// try the next player, else go to index 0
-
-		int playerIndex = -1;
-		// see if the player is in the list
-		try {
-			playerIndex = game_players.indexOf(gamePlayerWrapper.gamePlayer);
-		} catch (Exception e) {
-			// THIS SHOULD NEVER HAPPEN!!!
-		}
-
-		// next turn
-		// get the player and set it active?
-		if (playerIndex == game_players.size() - 1) {
-			// next player is index 0
-
-		} else {
-			// next player is index + 1
-		}
+//	public static void setPlayerTurn(GamePlayerWrapper gamePlayerWrapper) {
+//		// get the player's place in the list
+//		// try the next player, else go to index 0
+//
+//		int playerIndex = -1;
+//		// see if the player is in the list
+//		try {
+//			playerIndex = game_players.indexOf(gamePlayerWrapper.gamePlayer);
+//		} catch (Exception e) {
+//			// THIS SHOULD NEVER HAPPEN!!!
+//		}
+//
+//		// next turn
+//		// get the player and set it active?
+//		if (playerIndex == game_players.size() - 1) {
+//			// next player is index 0
+//
+//		} else {
+//			// next player is index + 1
+//		}
+//	}
+	
+	public static void handleDealerTurn() {
+		//GamePlayer dealer = (Dealer)GameManager.game_players.get(0);
+		DealerWrapper dealerWrapper = (DealerWrapper) root.dealerWrapper;
+		dealerWrapper.gamePlayer.addCardToHand(GameManager.game_deck.get(0));
+		dealerWrapper.update();
 	}
 
 	public static void dealCard(GamePlayerWrapper gamePlayerWrapper) {
