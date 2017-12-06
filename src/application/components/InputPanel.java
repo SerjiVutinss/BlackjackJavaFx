@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+// custom VBox to hold player controls
 public class InputPanel extends VBox {
 
 	HBox hbButtons;
@@ -15,48 +16,43 @@ public class InputPanel extends VBox {
 
 	public InputPanel(GamePlayerWrapper gamePlayerWrapper) {
 
+		// create a HBox container to hold the buttons
 		this.hbButtons = new HBox();
-		
-		this.btnStand= new Button("Stand");
+
+		// create the Stand button, set its text and add it to the container
+		this.btnStand = new Button();
 		this.btnStand.setText("Stand");
 		this.hbButtons.getChildren().add(btnStand);
-		
+
+		// set the Stand button event handler
 		btnStand.setOnAction(new EventHandler<ActionEvent>() {
-			
+
 			@Override
 			public void handle(ActionEvent event) {
-				
-				// handle the stand event
-				//GameManager.handleHit(gamePlayerWrapper);
-			}
-		});
-		
-		btnHit = new Button("Hit");
-		btnHit.setText("Hit!");
-		this.hbButtons.getChildren().add(btnHit);
-		
-		btnHit.setOnAction(new EventHandler<ActionEvent>() {
-			
-			@Override
-			public void handle(ActionEvent event) {
-				
-				// handle the hit event
-				GameManager.handleHit(gamePlayerWrapper);
-			}
-		});
-		
-		btnStand.setOnAction(new EventHandler<ActionEvent>() {
-			
-			@Override
-			public void handle(ActionEvent event) {
-				
+
 				// handle the stand event
 				System.out.println("Player Stood!");
 				GameManager.handleStand(gamePlayerWrapper);
 			}
 		});
-		
+
+		// add the Hit button and add it to the container
+		this.btnHit = new Button("Hit");
+		this.btnHit.setText("Hit!");
+		this.hbButtons.getChildren().add(btnHit);
+
+		// set the Hit button event handler
+		btnHit.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+
+				// handle the hit event
+				GameManager.handleHit(gamePlayerWrapper);
+			}
+		});
+
+		// add the button container (HBox) to this component
 		this.getChildren().add(this.hbButtons);
 	}
-
 }

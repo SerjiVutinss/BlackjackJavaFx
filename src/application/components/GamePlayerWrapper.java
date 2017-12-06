@@ -3,7 +3,6 @@ package application.components;
 import application.models.Dealer;
 import application.models.GamePlayer;
 import application.models.IUpdateable;
-import application.models.SeatedPlayer;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
@@ -13,14 +12,17 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 
 public class GamePlayerWrapper extends VBox implements IUpdateable {
 
+	// the game player object which the component is created from
 	public GamePlayer gamePlayer;
+	// the handWrapper which is added to the component to hold the cards, etc
 	public HandWrapper handWrapper;
+	// the InputPanel object which is tied to this component - contains Hit/Stand buttons
 	InputPanel inputPanel;
 
+	
 	public VBox rows;
 	public HBox rowDetails;
 	public HBox rowHand;
@@ -62,42 +64,19 @@ public class GamePlayerWrapper extends VBox implements IUpdateable {
 		this.rows.getChildren().add(this.rowDetails);
 		this.rows.getChildren().add(this.rowHand);
 
-		// if this is a Dealer, do nothing
-		//
-		// this.inputPanel = new InputPanel(this);
-		// this.rowInput.getChildren().add(this.inputPanel);
-		// this.rows.getChildren().add(this.rowInput);
-
 		// and add the rows to the GamePlayerWrapper (VBox)
 		this.getChildren().add(this.rows);
 
-		if (this.gamePlayer.getClass() == Dealer.class) {
-			System.out.println("DEALER");
-		} else {
-			System.out.println("PLAYER");
-			this.rowInput.getChildren().add(new Label("Balance: " + ((SeatedPlayer) this.gamePlayer).balance));
-		}
-
+//		if (this.gamePlayer.getClass() == Dealer.class) {
+//			System.out.println("DEALER");
+//		} else {
+//			System.out.println("PLAYER");
+//			this.rowInput.getChildren().add(new Label("Balance: " + ((SeatedPlayer) this.gamePlayer).balance));
+//		}
 	}
 
-	public void removeHand() {
-
-		HBox hbHandDead = new HBox();
-		// hbHandDead.setMinWidth(this.handWrapper.hbCardWrapperSlots.getWidth());
-		// hbHandDead.setMinHeight(this.handWrapper.hbCardWrapperSlots.getHeight());
-		Label lblHandDead = new Label("BUST");
-		lblHandDead.setFont(new Font(32));
-		hbHandDead.getChildren().add(lblHandDead);
-
-		this.handWrapper.hbCardWrapperSlots.getChildren().clear();
-		// this.handWrapper.hbCardWrapperSlots.getChildren().clear();
-		this.handWrapper.lblHandScore.setText("YOU BUST!");
-		this.rowInput.getChildren().clear();
-		this.handWrapper.hand = null;
-
-	}
-
-	// @Override
+	// interface method which is used to update this UI component
+	@Override
 	public void update() {
 
 		if (this.gamePlayer.getHand() != null) {

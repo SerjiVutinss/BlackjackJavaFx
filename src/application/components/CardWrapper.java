@@ -39,7 +39,7 @@ public class CardWrapper extends Button {
 	}
 
 	public void setupCard(Card card) {
-		
+
 		// set a standard size for all cards based on the images
 		this.setMinSize(this.card.img.getWidth() / 2, this.card.img.getHeight() / 2);
 
@@ -47,7 +47,8 @@ public class CardWrapper extends Button {
 		this.setBorder(new Border(
 				new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(10), BorderWidths.DEFAULT)));
 
-		// this will determine whether a card appears face up or down (dealer's second card should be dealt face down)
+		// this will determine whether a card appears face up or down (dealer's second
+		// card should be dealt face down)
 		if (this.isMasked) {
 			// set card background to the back of the card
 			Image cardImage = new Image("file:" + App.filePath + "card_back_1.jpg");
@@ -60,8 +61,8 @@ public class CardWrapper extends Button {
 					new BackgroundImage(this.card.img, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
 							BackgroundPosition.CENTER, new BackgroundSize(size, size, true, true, true, true))));
 		}
-		
-		// click event used for debugging purposes
+
+		// click event used for debugging purposes to print the card name to the console
 		this.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
