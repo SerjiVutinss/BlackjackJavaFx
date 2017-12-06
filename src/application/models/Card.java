@@ -20,7 +20,7 @@ public class Card {
 	// the string value of the path to this card's image file, as assigned in constructor
 	public String full_path_to_img;
 	// the image assigned to the card - this should be moved to UI component to separate concerns
-	public Image img;
+	//public Image img;
 	
 	// is the card an Ace?  this is used within the Hand class to determine scoring
 	public boolean isAce = false;
@@ -64,21 +64,22 @@ public class Card {
 		// file name for the image is composed as below
 		this.fullName = this.name + "_of_" + this.suit;
 
-		// this method may be moved to UI component CardWrapper
-		this.setImage();
+//		// this method may be moved to UI component CardWrapper
+//		this.setImage();
 
 	}
 
-	// try to add the relevant image to the card - should move this to the UI
-	// component in future, hence I have left it in a separate method
-	private void setImage() {
-		try {
-			this.full_path_to_img = App.filePath + this.fullName + ".png";
-			// System.out.println(this.full_path_to_img);
-			this.img = new Image("file:" + this.full_path_to_img);
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println(this.full_path_to_img);
-		}
-	}
+//	// try to add the relevant image to the card - should move this to the UI
+//	// component in future, hence I have left it in a separate method
+//	private void setImage() {
+//		try {
+//			// use the static string  which 
+//			this.full_path_to_img = App.image_path + this.fullName + ".png";
+//			// System.out.println(this.full_path_to_img);
+//			this.img = new Image("file:" + this.full_path_to_img);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			System.out.println(this.full_path_to_img);
+//		}
+//	}
 }

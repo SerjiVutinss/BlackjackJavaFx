@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 public class App extends Application {
 
 	public static final Path currentRelativePath = Paths.get("");
-	public static String filePath;
+	public static String image_path;
 	public final double sizeMulti = 1.0;
 	//RootLayoutController rootLayoutController;
 
@@ -59,7 +59,7 @@ public class App extends Application {
 		// Path currentRelativePath = Paths.get("");
 		String s = currentRelativePath.toAbsolutePath().toString();
 		s = s + "\\assets\\images\\cards\\";
-		filePath = s;
+		image_path = s;
 		launch(args);
 	}
 }

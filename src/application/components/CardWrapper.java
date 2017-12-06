@@ -26,6 +26,7 @@ public class CardWrapper extends Button {
 
 	private double size = 150;
 	public boolean isMasked = false;
+	private Image cardImage;
 
 	public CardWrapper(Card card, boolean isMasked) {
 		// call the button's super constructor
@@ -41,7 +42,9 @@ public class CardWrapper extends Button {
 	public void setupCard(Card card) {
 
 		// set a standard size for all cards based on the images
-		this.setMinSize(this.card.img.getWidth() / 2, this.card.img.getHeight() / 2);
+		//this.setMinSize(this.card.img.getWidth() / 2, this.card.img.getHeight() / 2);
+		
+		
 
 		// set a border
 		this.setBorder(new Border(
@@ -51,16 +54,19 @@ public class CardWrapper extends Button {
 		// card should be dealt face down)
 		if (this.isMasked) {
 			// set card background to the back of the card
-			Image cardImage = new Image("file:" + App.filePath + "card_back_1.jpg");
+			this.cardImage = new Image("file:" + App.image_path + "card_back.jpg");
 			this.setBackground(new Background(
 					new BackgroundImage(cardImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
 							BackgroundPosition.CENTER, new BackgroundSize(size, size, true, true, true, true))));
 		} else {
 			// set card background to card front
+			this.cardImage = new Image("file:" + App.image_path + this.card.fullName + ".png");
 			this.setBackground(new Background(
-					new BackgroundImage(this.card.img, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
+					new BackgroundImage(cardImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
 							BackgroundPosition.CENTER, new BackgroundSize(size, size, true, true, true, true))));
 		}
+		this.setMinSize(this.cardImage.getWidth() / 2, this.cardImage.getHeight() / 2);
+		
 
 		// click event used for debugging purposes to print the card name to the console
 		this.setOnAction(new EventHandler<ActionEvent>() {
