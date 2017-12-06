@@ -77,7 +77,7 @@ public class GameManager {
 		// randomly select a dealer
 		this.setupPlayers();
 		// deal the player and the dealer a hand
-		this.dealHands();
+		GameManager.dealHands();
 	}
 
 	// The Deck
@@ -120,15 +120,15 @@ public class GameManager {
 		GameManager.game_dealer = (Dealer) dealer;
 		System.out.println("Dealer added successfully!");
 	}
-	
-	private static void clearHands() {
-		game_dealer.hand=new Hand();
-		player.hand=new Hand();
-	}
+
+//	private static void clearHands() {
+//		game_dealer.setHand(new Hand());
+//		player.setHand(new Hand());
+//	}
 
 	private static void dealHands() {
 		// dealer will be last element in list, so
-		// for each card to be dealt,		
+		// for each card to be dealt,
 		for (int i = 0; i < NUM_START_CARDS; i++) {
 
 			// for (GamePlayer p : game_players) {
@@ -136,7 +136,7 @@ public class GameManager {
 			int cardIndex = 0;
 			// add the card to the player's hand
 			Card dealtCard = game_deck.get(cardIndex);
-			player.hand.addCard(dealtCard);
+			player.getHand().addCard(dealtCard);
 
 			// and remove the card from the game_deck
 			game_deck.remove(cardIndex);
@@ -169,8 +169,10 @@ public class GameManager {
 			// bust
 			System.out.println("You are Bust!");
 			// remove the hand from the table
-			gamePlayerWrapper.gamePlayer.hand = null;
-			gamePlayerWrapper.removeHand();
+			// gamePlayerWrapper.gamePlayer.hand = null;
+			// gamePlayerWrapper.removeHand();
+
+			handleStand(gamePlayerWrapper);
 
 			// end?
 
@@ -201,66 +203,92 @@ public class GameManager {
 		// turn the dealer's hole card
 		dealerWrapper.update();
 
-		// check the dealer's score and hit if it is below 17
-		while (dealerWrapper.gamePlayer.hand.getScore() < Dealer.MUST_EQUAL) {
+		// check the dealer's score and keeping hitting if it is still below 17
+		while (dealerWrapper.gamePlayer.getHand().getScore() < Dealer.MUST_EQUAL) {
 			// give the dealer a card
 			dealerWrapper.gamePlayer.addCardToHand(GameManager.game_deck.get(0));
 			GameManager.game_deck.remove(0);
 
-//			Thread.sleep(500);
+			// Thread.sleep(500);
 
 			dealerWrapper.handWrapper.update();
 			Thread.sleep(500);
 			dealerWrapper.update();
 		}
-		
-//		dealerWrapper.update();
-		
+
+		// dealerWrapper.update();
+
 		dealerWrapper.handWrapper.update();
-//
-		
-		int playerScore = player.hand.getScore();
-		
-		// if the dealer has 21 in two cards, automatically wins
-		if(game_dealer.hand.getScore() == MAX_SCORE && game_dealer.hand.cards.size() == 2) {
-			rootLayout.lblThePot.setText("Dealer won");	
-		}
-		else if(player.hand.getScore() <= MAX_SCORE && player.hand.getScore() > game_dealer.hand.getScore()) {
-			rootLayout.lblThePot.setText("Player won");
-		} else if (game_dealer.hand.getScore() <= MAX_SCORE && game_dealer.hand.getScore() > player.hand.getScore()){
-			rootLayout.lblThePot.setText("Dealer won");
+
+		// set the new variable winner to the winning player, or null if it is a draw
+		GamePlayer winner = compareScores();
+
+		if (winner == null) {
+			rootLayout.lblThePot.setText("PUSH");
 		} else {
-			rootLayout.lblThePot.setText("Push");
+			rootLayout.lblThePot.setText(winner.name + " won!");
 		}
-		
-//		if(player.hand.getScore() <= MAX_SCORE && player.hand.getScore() > game_dealer.hand.getScore()) {
-//			
-//			rootLayout.lblThePot.setText("Player won");
-//		} else {
-//			rootLayout.lblThePot.setText("Dealer won");
-//		}
-		
-		//if(game_dealer.hand.getScore() <= MAX_SCORE && game_dealer)
-		
-//		System.out.println("Dealing new hand");
-//
-//		Thread.sleep(500);
-//		game_dealer.hand=new Hand();
-//		player.hand=new Hand();
-//		Thread.sleep(500);
-//		dealHands();
-//		Thread.sleep(500);
-		//rootLayout.updateHands();
-		
+
 		rootLayout.vbGameControls.setVisible(true);
 
 	}
-	
 
-	
+	// returns null if hand is a push (draw)
+	public static GamePlayer compareScores() {
+
+		// first check for blackjacks
+
+		// if the game dealer and player both have blackjack, return null
+		if (game_dealer.getHand().isBlackJack() && player.getHand().isBlackJack()) {
+			return null;
+		}
+		// else if dealer has blackjack, dealer wins
+		else if (game_dealer.getHand().isBlackJack()) {
+			return game_dealer;
+		}
+		// else if player has blackjack, player wins
+		else if (player.getHand().isBlackJack()) {
+			return player;
+
+		} else {
+			// if dealer is bust
+			if (game_dealer.getHand().isBust) {
+				// and the player's s score is less than 21
+				if (!player.getHand().isBust) {
+					// dealer has won
+					return player;
+				}
+				// a push
+				else {
+					return null;
+				}
+			}
+
+			// now check if player has bust
+			if (player.getHand().isBust) {
+				// and check that the dealer's score is less than 21
+				if (!game_dealer.getHand().isBust) {
+					return game_dealer;
+				} else {
+					return null;
+				}
+			}
+			if (!player.getHand().isBust && !game_dealer.getHand().isBust) {
+				if (player.getHand().getScore() > game_dealer.getHand().getScore()) {
+					return player;
+				} else if (player.getHand().getScore() < game_dealer.getHand().getScore()) {
+					return game_dealer;
+				} else {
+					return null;
+				}
+			}
+		}
+		return null;
+	}
+
 	public void newHand() {
-		game_dealer.hand=new Hand();
-		player.hand=new Hand();
+		game_dealer.setHand(new Hand());
+		player.setHand(new Hand());
 		dealHands();
 	}
 
@@ -270,7 +298,7 @@ public class GameManager {
 		game_deck.remove(0);
 		gamePlayerWrapper.update();
 
-		for (Card c : gamePlayerWrapper.gamePlayer.hand.cards) {
+		for (Card c : gamePlayerWrapper.gamePlayer.getHand().getCards()) {
 			System.out.println(c.fullName);
 		}
 

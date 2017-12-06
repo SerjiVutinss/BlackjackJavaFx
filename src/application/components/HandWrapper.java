@@ -82,12 +82,12 @@ public class HandWrapper extends FlowPane implements IUpdateable {
 		this.hbCardWrapperSlots.getChildren().clear();
 		
 		// re-add all cardWrapper elements because new cards have been added
-		for (Card card : this.hand.cards) {
+		for (Card card : this.hand.getCards()) {
 
 //			this.hbCardWrapperSlots.setMinWidth(card.img.getWidth() * 2 + 10);
 //			this.hbCardWrapperSlots.setMinHeight(card.img.getHeight() / 2);
 
-			if (card == this.hand.cards.get(this.hand.cards.size() - 1)) {
+			if (card == this.hand.getCards().get(this.hand.getCards().size() - 1)) {
 				this.hbCardWrapperSlots.getChildren().add(new CardWrapper(card, this.isDealerHand));
 			} else {
 				this.hbCardWrapperSlots.getChildren().add(new CardWrapper(card, false));

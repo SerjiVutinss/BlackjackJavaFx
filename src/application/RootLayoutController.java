@@ -103,28 +103,17 @@ public class RootLayoutController {
 	
 	@FXML
 	public void newHand() {
+		// set the game controls to invisible
 		this.vbGameControls.setVisible(false);
+		// use the GameManager instance to start a new game
 		gm.newHand();
+		// update the UI
 		this.updateHands();
 	}
 
 	@FXML
 	public void updateHands() {
 		this.hbDealerSeat.getChildren().clear();
-		// App.filePath + this.fileName + ".png";
-		// System.out.println(this.full_path_to_img);
-
-		// This was supposed to be an image of the deck - disabling for now!
-
-		// Image img = new Image("file:" + App.filePath + "card_back_1.jpg");
-		// ImageView imgView = new ImageView(img);
-
-		// imgView.setFitHeight(imgView.getImage().getHeight() / 3);
-		// imgView.setFitWidth(imgView.getImage().getWidth() / 3);
-		//
-		// this.hbDealerSeat.getChildren().add(imgView);
-		//
-		//
 
 		this.dealerWrapper = new DealerWrapper(GameManager.game_dealer);
 		this.hbDealerSeat.getChildren().add(this.dealerWrapper);

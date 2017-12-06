@@ -4,7 +4,7 @@ public abstract class GamePlayer {
 
 	public String name;
 	// ArrayList<Card> currentHand;
-	public Hand hand;
+	private Hand hand;
 
 	public GamePlayer(String name) {
 		this.name = name;
@@ -12,11 +12,19 @@ public abstract class GamePlayer {
 		this.hand = new Hand();
 	}
 
+	public Hand getHand() {
+		return this.hand;
+	}
+	
+	public void setHand(Hand hand) {
+		this.hand = hand;
+	}
+
 	abstract String getName();
 
 	public void addCardToHand(Card c) {
 
-		this.hand.cards.add(c);
+		this.hand.addCard(c);
 
 	}
 

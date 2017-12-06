@@ -31,7 +31,7 @@ public class GamePlayerWrapper extends VBox implements IUpdateable {
 		// set the gamePlayer variable
 		this.gamePlayer = gamePlayer;
 		// create a new handwrapper
-		this.handWrapper = new HandWrapper(this.gamePlayer.hand);
+		this.handWrapper = new HandWrapper(this.gamePlayer.getHand());
 
 		// set a border
 		this.setBorder(new Border(
@@ -100,9 +100,9 @@ public class GamePlayerWrapper extends VBox implements IUpdateable {
 	// @Override
 	public void update() {
 
-		if (this.gamePlayer.hand != null) {
+		if (this.gamePlayer.getHand() != null) {
 			this.rowHand.getChildren().clear();
-			this.rowHand.getChildren().add(new HandWrapper(this.gamePlayer.hand));
+			this.rowHand.getChildren().add(new HandWrapper(this.gamePlayer.getHand()));
 		}
 	}
 }
