@@ -17,7 +17,7 @@ public class GameManager {
 	// this is used to store a reference to the RootLayoutController instance
 	static RootLayoutController root;
 
-	// maximum hand score, any hand exceeding this 
+	// maximum hand score, any hand exceeding this
 	// value will be mucked
 	public static final int MAX_SCORE = 21;
 	// each player is dealt this number of cards at the start of each round
@@ -36,48 +36,45 @@ public class GameManager {
 
 	// public static ArrayList<GamePlayer> players;
 
-
 	// public static HandWrapper current_hand;
 	public static ArrayList<Dealer> dealers;
 
 	public static Dealer game_dealer;
 	// public Player player;
-	//public static ArrayList<GamePlayer> game_players;
-	
+	// public static ArrayList<GamePlayer> game_players;
+
 	public static GamePlayer player;
-	
+
 	public static ArrayList<GamePlayerWrapper> game_player_wrappers;
 
 	public static GamePlayerWrapper activeGamePlayerWrapper;
 
-	public GameManager() {
+	// the GamePlayer is the human player, added through the welcome pane
+	public GameManager(GamePlayer p) {
 		// the default constructor
-		// this calls the next constructor and supplies the 
+		// this calls the next constructor and supplies the
 		// parameter 1 which sets up just one deck
-		this(1);
+		this(p, 1);
 	}
 
-	public GameManager(int numDecks) {
-		// 
+	public GameManager(GamePlayer p, int numDecks) {
+		// set the player variable
+		player = p;
+		// assign the number of decks to be used - used in the setupDeck() method
 		number_of_decks = numDecks;
-		// set up the lists
+		// set up the list variables with static data
 		this.setUpSuits();
 		this.setUpDealers();
-
-		// shuffle and deal
-		this.startGame();
 	}
-
-	// setter which is used to set the rootLayout from wrapper class(es)
-	public void setRootLayoutController(RootLayoutController rootLayout) {
-		root = rootLayout;
-	}
-
+	
+	// method to start a new game
 	public void startGame() {
+		// create and shuffle a new deck
 		this.setupDeck();
+		// randomly select a dealer
 		this.setupPlayers();
+		// deal the player and the dealer a hand
 		this.dealHands();
-
 	}
 
 	// The Deck
@@ -115,21 +112,10 @@ public class GameManager {
 
 	// Players
 	private void setupPlayers() {
-		// create a new list of players
-		//game_players = new ArrayList<>();
-		game_player_wrappers = new ArrayList<>();
-		// and add a player
-		player = new SeatedPlayer("Justin", 234);
-		//GameManager.game_players.add(seat1);
-
 		// set gameDealer to a random gameDealer
 		Dealer dealer = GameManager.dealers.get((int) (Math.random() * GameManager.dealers.size()));
 		GameManager.game_dealer = (Dealer) dealer;
-		//GameManager.game_players.add(game_dealer);
-		// add the dealer to the list last so it will be dealt last
-		// GameManager.game_players.add(this.game_dealer);
 		System.out.println("Dealer added successfully!");
-		
 	}
 
 	private void dealHands() {
@@ -137,17 +123,21 @@ public class GameManager {
 		// for each card to be dealt,
 		for (int i = 0; i < NUM_START_CARDS; i++) {
 
-			//for (GamePlayer p : game_players) {
-				// always take the top card off the deck - index 0
-				int cardIndex = 0;
-				// add the card to the player's hand
-				Card dealtCard = game_deck.get(cardIndex);
-				player.hand.addCard(dealtCard);
+			// for (GamePlayer p : game_players) {
+			// always take the top card off the deck - index 0
+			int cardIndex = 0;
+			// add the card to the player's hand
+			Card dealtCard = game_deck.get(cardIndex);
+			player.hand.addCard(dealtCard);
 
-				// and remove the card from the game_deck
-				game_deck.remove(cardIndex);
+			// and remove the card from the game_deck
+			game_deck.remove(cardIndex);
 
-			//}
+			dealtCard = game_deck.get(cardIndex);
+			game_dealer.addCardToHand(dealtCard);
+			game_deck.remove(cardIndex);
+
+			// }
 		}
 		System.out.println("Cards dealt successfully!");
 	}
@@ -173,6 +163,10 @@ public class GameManager {
 			// remove the hand from the table
 			gamePlayerWrapper.gamePlayer.hand = null;
 			gamePlayerWrapper.removeHand();
+			
+			
+			// end?
+			
 		} else {
 			System.out.println("Stand or Hit?");
 		}
@@ -181,41 +175,17 @@ public class GameManager {
 
 	public static void handleStand(GamePlayerWrapper gamePlayerWrapper) {
 		// handle the stand event
-		if(gamePlayerWrapper.getClass() == SeatedPlayerWrapper.class) {
-			// player has stood, move on to dealer
+		if (gamePlayerWrapper.getClass() == SeatedPlayerWrapper.class) {
+			// player has stood, end their turn
+			// and handle the dealer's turn
 			
 			
-			// handle the dealer's turn
 		} else {
-			// dealer has stood, deal a new hand
 		}
-
 	}
 
-//	public static void setPlayerTurn(GamePlayerWrapper gamePlayerWrapper) {
-//		// get the player's place in the list
-//		// try the next player, else go to index 0
-//
-//		int playerIndex = -1;
-//		// see if the player is in the list
-//		try {
-//			playerIndex = game_players.indexOf(gamePlayerWrapper.gamePlayer);
-//		} catch (Exception e) {
-//			// THIS SHOULD NEVER HAPPEN!!!
-//		}
-//
-//		// next turn
-//		// get the player and set it active?
-//		if (playerIndex == game_players.size() - 1) {
-//			// next player is index 0
-//
-//		} else {
-//			// next player is index + 1
-//		}
-//	}
-	
 	public static void handleDealerTurn() {
-		//GamePlayer dealer = (Dealer)GameManager.game_players.get(0);
+		// GamePlayer dealer = (Dealer)GameManager.game_players.get(0);
 		DealerWrapper dealerWrapper = (DealerWrapper) root.dealerWrapper;
 		dealerWrapper.gamePlayer.addCardToHand(GameManager.game_deck.get(0));
 		dealerWrapper.update();
@@ -228,12 +198,13 @@ public class GameManager {
 		gamePlayerWrapper.update();
 
 		for (Card c : gamePlayerWrapper.gamePlayer.hand.cards) {
-			System.out.println(c.fileName);
+			System.out.println(c.fullName);
 		}
 
 		// System.out.println("Card dealt!");
 	}
 
+	// initial setup methods to create lists
 	private void setUpSuits() {
 
 		// build the list of suits

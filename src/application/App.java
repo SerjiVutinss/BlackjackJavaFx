@@ -26,7 +26,7 @@ public class App extends Application {
 	public void start(Stage primaryStage) {
 
 		// set up some stuff
-		GameManager gm = new GameManager();
+		//GameManager gm = new GameManager();
 
 		try {
 			// auto-generated application start
@@ -51,7 +51,7 @@ public class App extends Application {
 			e.printStackTrace();
 		}
 
-		gm.startGame();
+		//gm.startGame();
 	}
 
 	public static void main(String[] args) {

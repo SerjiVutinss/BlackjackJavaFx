@@ -14,11 +14,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="576.0" prefWidth="865.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.RootLayoutController">
+<BorderPane prefHeight="576.0" prefWidth="865.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.RootLayoutController">
    <center>
       <AnchorPane fx:id="apAppRoot" BorderPane.alignment="CENTER">
          <children>
-            <VBox fx:id="vbContentRoot" alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <VBox fx:id="vbContentRoot" alignment="CENTER" styleClass="card-table" stylesheets="@application.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <HBox fx:id="hbHeader" alignment="CENTER" prefHeight="50.0" prefWidth="865.0">
                      <children>
@@ -30,6 +30,11 @@
                      </children>
                   </HBox>
                   <HBox fx:id="hbDealerSeat" alignment="CENTER" />
+                  <HBox fx:id="hbPot" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label text="The Pot" />
+                     </children>
+                  </HBox>
                   <HBox fx:id="hbPlayerSeats" alignment="CENTER" />
                </children>
             </VBox>
@@ -59,24 +64,26 @@
    <left>
       <Pane fx:id="pWelcome" prefHeight="551.0" prefWidth="264.0" BorderPane.alignment="CENTER">
          <children>
-            <VBox prefHeight="84.0" prefWidth="264.0">
+            <VBox prefHeight="82.0" prefWidth="264.0">
                <children>
-                  <HBox prefHeight="49.0" prefWidth="264.0">
+                  <Label prefHeight="37.0" prefWidth="112.0" text="Welcome">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </Label>
+                  <Label prefHeight="32.0" prefWidth="232.0" text="Enter your name and click start to begin">
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                  </Label>
+                  <HBox prefHeight="61.0" prefWidth="264.0" />
+                  <HBox alignment="CENTER" prefHeight="39.0" prefWidth="264.0">
                      <children>
-                        <Label prefHeight="45.0" prefWidth="112.0" text="Welcome">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
-                           <padding>
-                              <Insets left="10.0" />
-                           </padding>
-                        </Label>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" prefHeight="71.0" prefWidth="264.0">
-                     <children>
-                        <Label text="Name:" />
-                        <TextField />
+                        <Label text="Name: " />
+                        <TextField fx:id="tfPlayerName" />
                         <Button fx:id="btnStartGame" mnemonicParsing="false" onAction="#startGame" text="Start" />
                      </children>
                   </HBox>

@@ -45,6 +45,17 @@ public class InputPanel extends VBox {
 			}
 		});
 		
+		btnStand.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				
+				// handle the stand event
+				System.out.println("Player Stood!");
+				GameManager.handleStand(gamePlayerWrapper);
+			}
+		});
+		
 		this.getChildren().add(this.hbButtons);
 	}
 

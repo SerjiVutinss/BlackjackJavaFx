@@ -20,13 +20,7 @@ public abstract class GamePlayer {
 
 	}
 
-	abstract void clearHand();
-
 	public int checkHand() {
-		int totalScore = 0;
-		for (Card c : this.hand.cards) {
-			totalScore += c.cardValue;
-		}
-		return totalScore;
+		return this.hand.getScore();
 	}
 }

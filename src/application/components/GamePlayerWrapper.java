@@ -28,28 +28,37 @@ public class GamePlayerWrapper extends VBox implements IUpdateable {
 
 	public GamePlayerWrapper(GamePlayer gamePlayer) {
 
+		// set the gamePlayer variable
 		this.gamePlayer = gamePlayer;
+		// create a new handwrapper
 		this.handWrapper = new HandWrapper(this.gamePlayer.hand);
 
+		// set a border
 		this.setBorder(new Border(
 				new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(10), BorderWidths.DEFAULT)));
 
 		// VBox to hold the rows
 		this.rows = new VBox();
+		// holds the player's name
 		this.rowDetails = new HBox();
+		// holds the handwrapper object
 		this.rowHand = new HBox();
+		// holds the buttons
 		this.rowInput = new HBox();
 
+		// add the player name
 		this.rowDetails.getChildren().add(new Label(this.gamePlayer.name));
 
+		// clear the contents of this row
 		this.rowHand.getChildren().clear();
 
 		// decide whether the cards should be face up or face down
 		if (this.gamePlayer.getClass() == Dealer.class) {
 			this.handWrapper.setIsDealer(true);
 		}
+		// and add the handwrapper to the row
 		this.rowHand.getChildren().add(handWrapper);
-
+		// now add all of the rows to the containing VBox
 		this.rows.getChildren().add(this.rowDetails);
 		this.rows.getChildren().add(this.rowHand);
 
@@ -59,6 +68,7 @@ public class GamePlayerWrapper extends VBox implements IUpdateable {
 		// this.rowInput.getChildren().add(this.inputPanel);
 		// this.rows.getChildren().add(this.rowInput);
 
+		// and add the rows to the GamePlayerWrapper (VBox)
 		this.getChildren().add(this.rows);
 
 		if (this.gamePlayer.getClass() == Dealer.class) {
