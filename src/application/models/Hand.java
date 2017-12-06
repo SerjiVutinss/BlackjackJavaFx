@@ -6,51 +6,48 @@ import application.GameManager;
 
 public class Hand {
 
+	// an array list of the cards held in the hand
 	private ArrayList<Card> cards;
+
+	// these flags are set in the calculateScore() method which is called each time
+	// a card is added to the hand
 	public boolean hasAce = false;
-
-	public boolean hasHit = false;
-
 	public boolean isBust = false;
-
-	public int minHandValue;
-	public int maxHandValue;
-
+	// the actual score of the hand, adjusted for the holding of an Ace
 	private int handScore = 0;
 
+	// constructor - cards are always added to a hand, hence no parameters
 	public Hand() {
+		// initialise the card list
 		this.cards = new ArrayList<>();
 	}
 
+	// method used to add a new card to the hand
 	public void addCard(Card card) {
-		// p.addCardToHand(dealtCard);
+		// add the card to the arraylist
 		this.cards.add(card);
+		// and then recalculate
 		this.calculateScore();
 	}
 
-	public void addCardToHand(Card dealtCard) {
-
-	}
-
+	// hand cards getter
 	public ArrayList<Card> getCards() {
 		return this.cards;
 	}
 
+	// score getter
 	public int getScore() {
 		return this.handScore;
 	}
 
-	public boolean isBust() {
-		
-		return this.handScore > GameManager.MAX_SCORE;
-	}
-
+	// check whether this hand is BlackJack (21 in 2 cards)
 	public boolean isBlackJack() {
 		return this.handScore == GameManager.MAX_SCORE && this.cards.size() == 2;
 	}
 
-	// get the score of the hand, if an A is present, treat as high until the score
-	// is over 21
+	// calculate the score of the hand, if an Ace is present, treat as high until
+	// the score is over 21
+	// sets hasAce and isBust flags
 	public void calculateScore() {
 		int totalScore = 0;
 
@@ -71,18 +68,5 @@ public class Hand {
 		if (this.handScore > GameManager.MAX_SCORE) {
 			this.isBust = true;
 		}
-
 	}
-
-	// public boolean handIsValid() {
-	// int handValue = 0;
-	// for (Card c : this.cards) {
-	// handValue += c.cardValue;
-	// }
-	// if (handValue <= GameManager.MAX_SCORE) {
-	// return true;
-	// } else {
-	// return false;
-	// }
-	// }
 }

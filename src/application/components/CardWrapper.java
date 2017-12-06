@@ -41,11 +41,6 @@ public class CardWrapper extends Button {
 
 	public void setupCard(Card card) {
 
-		// set a standard size for all cards based on the images
-		//this.setMinSize(this.card.img.getWidth() / 2, this.card.img.getHeight() / 2);
-		
-		
-
 		// set a border
 		this.setBorder(new Border(
 				new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(10), BorderWidths.DEFAULT)));
@@ -65,8 +60,10 @@ public class CardWrapper extends Button {
 					new BackgroundImage(cardImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
 							BackgroundPosition.CENTER, new BackgroundSize(size, size, true, true, true, true))));
 		}
+
+		// set a standard size for all cards based on the images - all asset images are
+		// exactly the same dimensions
 		this.setMinSize(this.cardImage.getWidth() / 2, this.cardImage.getHeight() / 2);
-		
 
 		// click event used for debugging purposes to print the card name to the console
 		this.setOnAction(new EventHandler<ActionEvent>() {

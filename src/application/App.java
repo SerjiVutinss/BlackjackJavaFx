@@ -37,11 +37,6 @@ public class App extends Application {
 
 			BorderPane root = (BorderPane) loader.load();
 
-			// start the game
-
-//			this.rootLayoutController = loader.getController();
-//			gm.setRootLayoutController(this.rootLayoutController);
-
 			Scene scene = new Scene(root, 1024, 768);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
@@ -50,16 +45,14 @@ public class App extends Application {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		//gm.startGame();
 	}
 
 	public static void main(String[] args) {
-
-		// Path currentRelativePath = Paths.get("");
+		// build the path to the image folder
 		String s = currentRelativePath.toAbsolutePath().toString();
 		s = s + "\\assets\\images\\cards\\";
 		image_path = s;
+		// launch the application
 		launch(args);
 	}
 }

@@ -15,58 +15,65 @@ import javafx.scene.layout.VBox;
 
 public class RootLayoutController {
 
-	// public CardContainer _cardContainer;
+	// UI elements which need to be accessed
 
-	// root element of RootLayout.fxml
+	// a child element of RootLayout.fxml - the main play area
 	@FXML
 	AnchorPane apAppRoot;
-	
-	@FXML
-	public Label lblThePot;
 
+	// main content pane within apAppRoot
 	@FXML
-	TextField tfPlayerName;
+	private VBox vbContentRoot;
 
+	// the area in which the dealerWrapper will be placed, child of vbContentRoot
+	@FXML
+	public HBox hbDealerSeat;
+
+	// the area in which the playerWrapper is placed, child of vbContentRoot
+	@FXML
+	public HBox hbPlayerSeats;
+
+	// the welcome pane and controls - pWelcome is a child of RootLayout.fxml
 	@FXML
 	Pane pWelcome;
 
-	// the top, header row
-	@FXML
-	HBox hbHeader;
-	
 	@FXML
 	VBox vbWelcome;
 	
 	@FXML
-	public VBox vbGameControls;
-
+	TextField tfPlayerName;
+	
 	@FXML
 	Button btnStartGame;
-	
+
+	@FXML
+	public VBox vbGameControls;
+
+	// in-game controls
 	@FXML
 	Button btnNewHand;
 
-	// the area the dealer will sit
+	// the top, header row - child of vbContentRoot, contains the BlackJack text
 	@FXML
-	public HBox hbDealerSeat;
+	HBox hbHeader;
 
-	// main content pane within apAppRoot
-	// hbPlayerSeats is a child
-	@FXML
-	private VBox vbContentRoot;
 
-	// the area in which Players are added
 	@FXML
-	public HBox hbPlayerSeats;
-	
+	public Label lblThePot;
+
+	// the game manager which controls game logic
 	GameManager gm;
 
+	// declaring variables for the dealer and player wrappers
 	public GamePlayerWrapper dealerWrapper;
+	// this was originally a list but simplified to a single variable
 	public SeatedPlayerWrapper seatedPlayer;
-
+	
+	// default constructor - unused as initialise() method will suffice
 	public RootLayoutController() {
 	}
 
+	// initialise method which is called on creation of the controller
 	@FXML
 	private void initialize() {
 		// this.tfInput.setText("Hello World!");
@@ -75,11 +82,8 @@ public class RootLayoutController {
 		this.vbContentRoot.setVisible(false);
 	}
 
-	@FXML
-	private void updateGUI() {
-
-	}
-
+	// event handler for btnStartGame - starts a new game using the player name in
+	// the tfPlayerName TextField
 	@FXML
 	private void startGame() {
 
@@ -88,9 +92,9 @@ public class RootLayoutController {
 			System.out.println("Button clicked!");
 			this.vbWelcome.setVisible(false);
 			this.vbWelcome.setMaxWidth(0);
-			
-			//this.vbGameControls.setVisible(true);
-			
+
+			// this.vbGameControls.setVisible(true);
+
 			this.vbContentRoot.setVisible(true);
 
 			this.gm = new GameManager(this, new SeatedPlayer(this.tfPlayerName.getText()));
@@ -100,7 +104,8 @@ public class RootLayoutController {
 
 		}
 	}
-	
+
+	// start a new hand within a game
 	@FXML
 	public void newHand() {
 		// set the game controls to invisible
@@ -111,6 +116,7 @@ public class RootLayoutController {
 		this.updateHands();
 	}
 
+	// updates the UI using the GameManager dealer and player objects
 	@FXML
 	public void updateHands() {
 		this.hbDealerSeat.getChildren().clear();
@@ -119,10 +125,6 @@ public class RootLayoutController {
 		this.hbDealerSeat.getChildren().add(this.dealerWrapper);
 
 		this.hbPlayerSeats.getChildren().clear();
-		// for (GamePlayer p : GameManager.game_players) {
-		// if (GameManager.player != GameManager.game_dealer) {
 		this.hbPlayerSeats.getChildren().add(new SeatedPlayerWrapper(GameManager.player));
-		// }
-		// }
 	}
 }
