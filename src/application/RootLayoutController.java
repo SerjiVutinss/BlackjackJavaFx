@@ -1,19 +1,22 @@
 package application;
 
+import java.util.Optional;
+
 import application.components.DealerWrapper;
 import application.components.GamePlayerWrapper;
 import application.components.SeatedPlayerWrapper;
 import application.models.SeatedPlayer;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 
 public class RootLayoutController {
 
@@ -95,7 +98,7 @@ public class RootLayoutController {
 
 			System.out.println("Button clicked!");
 			this.vbWelcome.setVisible(false);
-			this.vbWelcome.setMaxWidth(0);
+			//this.vbWelcome.setMaxWidth(0);
 
 			// this.vbGameControls.setVisible(true);
 
@@ -118,6 +121,21 @@ public class RootLayoutController {
 		gm.newHand();
 		// update the UI
 		this.updateHands();
+	}
+	
+	@FXML
+	public void gameOver() {
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Game Over");
+		alert.setHeaderText("You do not have enough money to place another bet!");
+		alert.setContentText("This game is over. Would you like to start another game?");
+		Optional<ButtonType> result = alert.showAndWait();
+		if(result.get() == ButtonType.OK) {
+			this.vbContentRoot.setVisible(false);
+			this.vbWelcome.setVisible(true);
+		} else {
+			// do nothing yet
+		}
 	}
 
 	// updates the UI using the GameManager dealer and player objects
@@ -149,5 +167,10 @@ public class RootLayoutController {
 		alert.setContentText(sb.toString());
 
 		alert.showAndWait();
+	}
+	
+	@FXML
+	public void quitApp() {
+		System.exit(0);
 	}
 }

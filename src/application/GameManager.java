@@ -279,6 +279,12 @@ public class GameManager {
 			rootLayout.lblThePot.setText(winner.name + " won!");
 		}
 		pot_balance = 0;
+		
+		// check to see if the game is over
+		if(player.getBalance() < BET_SIZE) {
+			// game is over
+			rootLayout.gameOver();
+		}
 
 		// enable the controls to allow the player to start a new hand
 		rootLayout.vbGameControls.setVisible(true);
