@@ -8,6 +8,7 @@ public class DealerWrapper extends GamePlayerWrapper {
 	// extra dealer specific UI functionality in future
 	public DealerWrapper(GamePlayer gamePlayer) {
 		super(gamePlayer);
+		this.handWrapper.lblHandScore.setVisible(false);
 	}
 
 }

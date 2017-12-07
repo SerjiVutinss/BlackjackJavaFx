@@ -71,7 +71,7 @@ public class GameManager {
 		number_of_decks = numDecks;
 		// set up the list variables with static data
 		this.setUpSuits();
-		this.setUpDealers();
+//		this.setUpDealers();
 	}
 
 	// method to start a new game
@@ -120,7 +120,7 @@ public class GameManager {
 	// Players
 	private void setupPlayers() {
 		// set gameDealer to a random gameDealer
-		Dealer dealer = GameManager.dealers.get((int) (Math.random() * GameManager.dealers.size()));
+		Dealer dealer = new Dealer("Dealer");
 		GameManager.game_dealer = (Dealer) dealer;
 		System.out.println("Dealer added successfully!");
 	}
@@ -226,12 +226,13 @@ public class GameManager {
 	public static void handleStand(GamePlayerWrapper gamePlayerWrapper) {
 		// handle the stand event
 		if (gamePlayerWrapper.getClass() == SeatedPlayerWrapper.class) {
-			// player has stood, end their turn
+			// player has stood, end their turn, so disable the input panel buttons
+			gamePlayerWrapper.inputPanel.setButtonsVisible(false);			
 			try {
 				// and handle the dealer's turn
 				handleDealerTurn();
 			} catch (InterruptedException e) {
-				// TODO
+				// TODO: Threading not implemented
 			}
 		}
 	}
@@ -239,6 +240,7 @@ public class GameManager {
 	public static void handleDealerTurn() throws InterruptedException {
 		// GamePlayer dealer = (Dealer)GameManager.game_players.get(0);
 		DealerWrapper dealerWrapper = (DealerWrapper) rootLayout.dealerWrapper;
+		dealerWrapper.handWrapper.lblHandScore.setVisible(true);
 
 		// turn the dealer's hole card
 		dealerWrapper.update();
@@ -359,13 +361,13 @@ public class GameManager {
 		GameManager.suitList.add("diamonds");
 	}
 
-	private void setUpDealers() {
-		GameManager.dealers = new ArrayList<Dealer>();
-		GameManager.dealers.add(new Dealer("Jack P."));
-		GameManager.dealers.add(new Dealer("Bob S."));
-		GameManager.dealers.add(new Dealer("Bob W."));
-		GameManager.dealers.add(new Dealer("Pablo R."));
-		GameManager.dealers.add(new Dealer("William H."));
-	}
+//	private void setUpDealers() {
+//		GameManager.dealers = new ArrayList<Dealer>();
+//		GameManager.dealers.add(new Dealer("Jack P."));
+//		GameManager.dealers.add(new Dealer("Bob S."));
+//		GameManager.dealers.add(new Dealer("Bob W."));
+//		GameManager.dealers.add(new Dealer("Pablo R."));
+//		GameManager.dealers.add(new Dealer("William H."));
+//	}
 
 }

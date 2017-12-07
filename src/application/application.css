@@ -3,3 +3,7 @@
 .card-table {
     /* -fx-background-color: green; */
 }
+
+.background {
+    -fx-background-image: url("https://bps.hs.llnwd.net/e2/v2/common/Common/Common/neutral/image/2017/03/game.netentBlackjack3Hand.backgroundimage_v3.jpg");
+}

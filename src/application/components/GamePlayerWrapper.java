@@ -20,7 +20,7 @@ public class GamePlayerWrapper extends VBox implements IUpdateable {
 	// the handWrapper which is added to the component to hold the cards, etc
 	public HandWrapper handWrapper;
 	// the InputPanel object which is tied to this component - contains Hit/Stand buttons
-	InputPanel inputPanel;
+	public InputPanel inputPanel;
 
 	
 	public VBox rows;
@@ -35,6 +35,9 @@ public class GamePlayerWrapper extends VBox implements IUpdateable {
 		// create a new handwrapper
 		this.handWrapper = new HandWrapper(this.gamePlayer.getHand());
 
+		// set a background
+		this.setStyle("-fx-background-color: white");
+		
 		// set a border
 		this.setBorder(new Border(
 				new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(10), BorderWidths.DEFAULT)));

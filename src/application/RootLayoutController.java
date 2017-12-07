@@ -135,9 +135,18 @@ public class RootLayoutController {
 	@FXML
 	public void aboutClick() {
 		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Information Dialog");
+		alert.setTitle("Blackjack Rules");
 		alert.setHeaderText(null);
-		alert.setContentText("I have a great message for you!");
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append("1. Any score over 21 and the player will lose the hand");
+		sb.append("\n2. Doubling down means that you may only receive one more card");
+		sb.append("\n3. The dealer must keep hitting until they reach 17");
+		sb.append("\n4. A Blackjack (21 in 2 cards) beats any other 21");
+		sb.append("\n5. A Blackjack will draw with any other blackjack");
+		sb.append("\n6. Splitting is not allowed!");
+		
+		alert.setContentText(sb.toString());
 
 		alert.showAndWait();
 	}

@@ -14,11 +14,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="576.0" prefWidth="865.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.RootLayoutController">
+<BorderPane prefHeight="576.0" prefWidth="865.0" styleClass="background" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.RootLayoutController">
    <center>
       <AnchorPane fx:id="apAppRoot" BorderPane.alignment="CENTER">
          <children>
-            <VBox fx:id="vbContentRoot" alignment="CENTER" styleClass="card-table" stylesheets="@application.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <VBox fx:id="vbContentRoot" alignment="CENTER" styleClass="card-table" stylesheets="@application.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <HBox fx:id="hbHeader" alignment="CENTER" prefHeight="50.0" prefWidth="865.0">
                      <children>
@@ -32,21 +32,29 @@
                   <HBox fx:id="hbDealerSeat" alignment="CENTER" />
                   <Pane prefHeight="80.0" prefWidth="619.0">
                      <children>
-                        <Label fx:id="lblThePot" alignment="CENTER" layoutX="11.0" layoutY="17.0" prefHeight="47.0" prefWidth="180.0" text="The Pot">
+                        <Label fx:id="lblThePot" alignment="TOP_LEFT" layoutX="254.0" layoutY="24.0" prefHeight="47.0" prefWidth="180.0" style="-fx-background-color: white;" text="The Pot">
                            <font>
                               <Font name="System Bold" size="15.0" />
                            </font>
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
                         </Label>
-                        <HBox layoutX="101.0" layoutY="53.0" prefHeight="23.0" prefWidth="200.0">
+                        <HBox layoutX="301.0" layoutY="47.0" prefHeight="23.0" prefWidth="200.0">
                            <children>
-                              <Label alignment="CENTER" text="Total:" />
-                              <Label fx:id="lblPotBalance">
+                              <Label alignment="CENTER" style="-fx-background-color: white;" text="Total:" />
+                              <Label fx:id="lblPotBalance" style="-fx-background-color: white;">
                                  <HBox.margin>
                                     <Insets left="5.0" />
                                  </HBox.margin>
                               </Label>
                            </children>
                         </HBox>
+                        <VBox fx:id="vbGameControls" layoutX="451.0" layoutY="28.0" prefHeight="25.0" prefWidth="100.0">
+                           <children>
+                              <Button fx:id="btnNewHand" alignment="CENTER" mnemonicParsing="false" onAction="#newHand" prefWidth="99.0" text="Next Hand" />
+                           </children>
+                        </VBox>
                      </children>
                   </Pane>
                   <HBox fx:id="hbPlayerSeats" alignment="CENTER" />
@@ -62,11 +70,6 @@
               <MenuItem mnemonicParsing="false" text="Close" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
               <MenuItem fx:id="btnAbout" mnemonicParsing="false" onAction="#aboutClick" text="About" />
@@ -76,9 +79,9 @@
       </MenuBar>
    </top>
    <left>
-      <Pane fx:id="pWelcome" prefHeight="551.0" prefWidth="246.0" BorderPane.alignment="CENTER">
+      <Pane fx:id="pWelcome" prefHeight="551.0" prefWidth="98.0" BorderPane.alignment="CENTER">
          <children>
-            <VBox fx:id="vbWelcome" prefHeight="82.0" prefWidth="264.0">
+            <VBox fx:id="vbWelcome" prefHeight="99.0" prefWidth="264.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-radius: 20;">
                <children>
                   <Label prefHeight="27.0" prefWidth="214.0" text="Welcome to Blackjack">
                      <font>
@@ -93,19 +96,17 @@
                         <Insets left="20.0" />
                      </padding>
                   </Label>
-                  <HBox prefHeight="61.0" prefWidth="264.0" />
-                  <HBox alignment="CENTER" prefHeight="39.0" prefWidth="264.0">
+                  <HBox prefHeight="61.0" prefWidth="264.0">
                      <children>
-                        <Label text="Name: " />
-                        <TextField fx:id="tfPlayerName" />
-                        <Button fx:id="btnStartGame" mnemonicParsing="false" onAction="#startGame" text="Start" />
+                        <HBox alignment="CENTER" prefHeight="39.0" prefWidth="264.0">
+                           <children>
+                              <Label text="Name: " />
+                              <TextField fx:id="tfPlayerName" />
+                              <Button fx:id="btnStartGame" mnemonicParsing="false" onAction="#startGame" text="Start" />
+                           </children>
+                        </HBox>
                      </children>
                   </HBox>
-               </children>
-            </VBox>
-            <VBox fx:id="vbGameControls" layoutX="119.0" layoutY="143.0" prefHeight="408.0" prefWidth="127.0">
-               <children>
-                  <Button fx:id="btnNewHand" alignment="CENTER" mnemonicParsing="false" onAction="#newHand" prefWidth="99.0" text="Next Hand" />
                </children>
             </VBox>
          </children>

@@ -73,4 +73,10 @@ public class InputPanel extends VBox {
 		this.getChildren().add(this.hbButtons);
 
 	}
+	
+	public void setButtonsVisible(boolean isVisible) {
+		this.btnHit.setVisible(isVisible);
+		this.btnStand.setVisible(isVisible);
+		this.btnDouble.setVisible(isVisible);
+	}
 }
