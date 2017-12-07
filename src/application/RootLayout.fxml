@@ -30,11 +30,25 @@
                      </children>
                   </HBox>
                   <HBox fx:id="hbDealerSeat" alignment="CENTER" />
-                  <HBox fx:id="hbPot" prefHeight="100.0" prefWidth="200.0">
+                  <Pane prefHeight="80.0" prefWidth="619.0">
                      <children>
-                        <Label fx:id="lblThePot" text="The Pot" />
+                        <Label fx:id="lblThePot" alignment="CENTER" layoutX="11.0" layoutY="17.0" prefHeight="47.0" prefWidth="180.0" text="The Pot">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <HBox layoutX="101.0" layoutY="53.0" prefHeight="23.0" prefWidth="200.0">
+                           <children>
+                              <Label alignment="CENTER" text="Total:" />
+                              <Label fx:id="lblPotBalance">
+                                 <HBox.margin>
+                                    <Insets left="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
                      </children>
-                  </HBox>
+                  </Pane>
                   <HBox fx:id="hbPlayerSeats" alignment="CENTER" />
                </children>
             </VBox>
@@ -55,7 +69,7 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
-              <MenuItem mnemonicParsing="false" text="About" />
+              <MenuItem fx:id="btnAbout" mnemonicParsing="false" onAction="#aboutClick" text="About" />
             </items>
           </Menu>
         </menus>
@@ -66,7 +80,7 @@
          <children>
             <VBox fx:id="vbWelcome" prefHeight="82.0" prefWidth="264.0">
                <children>
-                  <Label prefHeight="37.0" prefWidth="112.0" text="Welcome">
+                  <Label prefHeight="27.0" prefWidth="214.0" text="Welcome to Blackjack">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
@@ -89,9 +103,9 @@
                   </HBox>
                </children>
             </VBox>
-            <VBox fx:id="vbGameControls" layoutY="92.0" prefHeight="459.0" prefWidth="246.0">
+            <VBox fx:id="vbGameControls" layoutX="119.0" layoutY="143.0" prefHeight="408.0" prefWidth="127.0">
                <children>
-                  <Button fx:id="btnNewHand" mnemonicParsing="false" onAction="#newHand" text="New Hand" />
+                  <Button fx:id="btnNewHand" alignment="CENTER" mnemonicParsing="false" onAction="#newHand" prefWidth="99.0" text="Next Hand" />
                </children>
             </VBox>
          </children>

@@ -6,12 +6,14 @@ import application.components.SeatedPlayerWrapper;
 import application.models.SeatedPlayer;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 public class RootLayoutController {
 
@@ -60,6 +62,8 @@ public class RootLayoutController {
 
 	@FXML
 	public Label lblThePot;
+	@FXML
+	public Label lblPotBalance;
 
 	// the game manager which controls game logic
 	GameManager gm;
@@ -97,7 +101,7 @@ public class RootLayoutController {
 
 			this.vbContentRoot.setVisible(true);
 
-			this.gm = new GameManager(this, new SeatedPlayer(this.tfPlayerName.getText()));
+			this.gm = new GameManager(this, new SeatedPlayer(this.tfPlayerName.getText(), 200.0d));
 			this.gm.startGame();
 
 			this.updateHands();
@@ -126,5 +130,15 @@ public class RootLayoutController {
 
 		this.hbPlayerSeats.getChildren().clear();
 		this.hbPlayerSeats.getChildren().add(new SeatedPlayerWrapper(GameManager.player));
+	}
+	
+	@FXML
+	public void aboutClick() {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Information Dialog");
+		alert.setHeaderText(null);
+		alert.setContentText("I have a great message for you!");
+
+		alert.showAndWait();
 	}
 }

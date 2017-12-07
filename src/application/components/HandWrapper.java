@@ -26,7 +26,7 @@ public class HandWrapper extends FlowPane implements IUpdateable {
 	HBox hbHandScore;
 	// the label used to display the hand score
 	public Label lblHandScore;
-	
+
 	// if this is true, the second card will be face down
 	boolean isDealerHand = false;
 
@@ -73,19 +73,19 @@ public class HandWrapper extends FlowPane implements IUpdateable {
 		// update on initialisation
 		this.update();
 	}
-	
+
 	// abstract interface method(IUpdateable)
 	// this rebuilds the UI element on the screen
 	@Override
 	public void update() {
 		// clear all cardWrapper elements from the component
 		this.hbCardWrapperSlots.getChildren().clear();
-		
+
 		// re-add all cardWrapper elements because new cards have been added
 		for (Card card : this.hand.getCards()) {
 
-//			this.hbCardWrapperSlots.setMinWidth(card.img.getWidth() * 2 + 10);
-//			this.hbCardWrapperSlots.setMinHeight(card.img.getHeight() / 2);
+			// this.hbCardWrapperSlots.setMinWidth(card.img.getWidth() * 2 + 10);
+			// this.hbCardWrapperSlots.setMinHeight(card.img.getHeight() / 2);
 
 			if (card == this.hand.getCards().get(this.hand.getCards().size() - 1)) {
 				this.hbCardWrapperSlots.getChildren().add(new CardWrapper(card, this.isDealerHand));
@@ -101,7 +101,7 @@ public class HandWrapper extends FlowPane implements IUpdateable {
 
 		if (this.hand.getScore() > GameManager.MAX_SCORE) {
 
-			this.lblHandScore.setText(String.valueOf("Score: BUST!"));
+			this.lblHandScore.setText(String.valueOf("Score: " + this.hand.getScore() + " BUST!"));
 
 		} else {
 			this.lblHandScore.setText(String.valueOf("Score: " + this.hand.getScore()));

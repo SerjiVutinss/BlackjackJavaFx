@@ -11,6 +11,7 @@ import application.models.Card;
 import application.models.Dealer;
 import application.models.GamePlayer;
 import application.models.Hand;
+import application.models.SeatedPlayer;
 
 // the main game logic controller
 public class GameManager {
@@ -26,7 +27,8 @@ public class GameManager {
 
 	// a list of suits which is used to build (each) deck
 	private static ArrayList<String> suitList;
-	// the number of decks which are used to build the final game deck - this defaults to 6
+	// the number of decks which are used to build the final game deck - this
+	// defaults to 6
 	public static int number_of_decks;
 	// used to store the built game deck - could be any number of decks
 	// the game deck is shuffled at the start of a new game but not a new round
@@ -44,17 +46,22 @@ public class GameManager {
 	public static Dealer game_dealer;
 
 	// the human player - could be adapted to work with a list for multiple players
-	public static GamePlayer player;
+	public static SeatedPlayer player;
+
+	// betting
+	public static final double BET_SIZE = 20.0d;
+	// the balance in the pot
+	public static double pot_balance;
 
 	// the GamePlayer is the human player, added through the welcome pane
-	public GameManager(RootLayoutController rootLayout, GamePlayer p) {
+	public GameManager(RootLayoutController rootLayout, SeatedPlayer p) {
 		// the default constructor
 		// this calls the next constructor and supplies the
 		// parameter 6 which sets up just six decks - the default for blackjack
 		this(rootLayout, p, 6);
 	}
 
-	public GameManager(RootLayoutController rootLayout, GamePlayer p, int numDecks) {
+	public GameManager(RootLayoutController rootLayout, SeatedPlayer p, int numDecks) {
 		// set the rootLayout reference
 		GameManager.rootLayout = rootLayout;
 
@@ -118,13 +125,21 @@ public class GameManager {
 		System.out.println("Dealer added successfully!");
 	}
 
-//	private static void clearHands() {
-//		game_dealer.setHand(new Hand());
-//		player.setHand(new Hand());
-//	}
+	// private static void clearHands() {
+	// game_dealer.setHand(new Hand());
+	// player.setHand(new Hand());
+	// }
 
 	// deal out a new hand to all players and the dealer
 	private static void dealHands() {
+		// first take the player's bet -
+		// take the bet from the player's balance
+		player.deductFromBalance(BET_SIZE);
+		// add it to the pot
+		// and display the pot balance
+		pot_balance += BET_SIZE;
+		rootLayout.lblPotBalance.setText(String.valueOf(pot_balance));
+
 		// dealer will be last element in list, so
 		// for each card to be dealt,
 		for (int i = 0; i < NUM_START_CARDS; i++) {
@@ -156,12 +171,14 @@ public class GameManager {
 		dealHands();
 	}
 
-	// deal a new card to a GamePlayer object and update the UI component accordingly
+	// deal a new card to a GamePlayer object and update the UI component
+	// accordingly
 	private static void dealCard(GamePlayerWrapper gamePlayerWrapper) {
-		// add a new card to the 
+		// add a new card to the
 		gamePlayerWrapper.gamePlayer.addCardToHand(game_deck.get(0));
 		game_deck.remove(0);
-		gamePlayerWrapper.update();
+		//gamePlayerWrapper.update();
+		gamePlayerWrapper.handWrapper.update();
 	}
 
 	// the event when the player Hits
@@ -189,6 +206,22 @@ public class GameManager {
 
 	}
 
+	// Seated Player only - bet is doubled and player can only draw one card
+	public static void handleDouble(GamePlayerWrapper gamePlayerWrapper) {
+		// take the pot balance amount from the player's balance again
+		player.deductFromBalance(pot_balance);
+		// add this amount to the pot
+		pot_balance += pot_balance;
+		// update the UI element
+		rootLayout.lblPotBalance.setText(String.valueOf(pot_balance));
+		
+		// deal the player a card
+		GameManager.dealCard(gamePlayerWrapper);
+		// and then stand
+		handleStand(gamePlayerWrapper);
+//		gamePlayerWrapper.update();
+	}
+
 	// the event where the player stands
 	public static void handleStand(GamePlayerWrapper gamePlayerWrapper) {
 		// handle the stand event
@@ -212,18 +245,20 @@ public class GameManager {
 
 		// check the dealer's score and keeping hitting if it is still below 17
 		while (dealerWrapper.gamePlayer.getHand().getScore() < Dealer.MUST_EQUAL) {
-//			// give the dealer a card
-//			dealerWrapper.gamePlayer.addCardToHand(GameManager.game_deck.get(0));
-//			// remove that card from the deck
-//			GameManager.game_deck.remove(0);
-//			// update the hand UI component
-//			dealerWrapper.handWrapper.update();
-//			// and update the dealer UI component
+			// // give the dealer a card
+			// dealerWrapper.gamePlayer.addCardToHand(GameManager.game_deck.get(0));
+			// // remove that card from the deck
+			// GameManager.game_deck.remove(0);
+			// // update the hand UI component
+			// dealerWrapper.handWrapper.update();
+			// // and update the dealer UI component
 //			dealerWrapper.update();
-			
+
 			// code above is not necessary since refactoring method dealCard()
 			GameManager.dealCard(dealerWrapper);
 		}
+
+		dealerWrapper.update();
 
 		// set the new variable winner to the winning player, or null if it is a draw
 		GamePlayer winner = compareScores();
@@ -232,9 +267,16 @@ public class GameManager {
 		// TODO: implement the money aspect of this
 		if (winner == null) {
 			rootLayout.lblThePot.setText("PUSH");
+			// player gets the money back
+			player.addToBalance(pot_balance);
 		} else {
+			if (winner.getClass() == SeatedPlayer.class) {
+				// player gets the bet back + the same amount from the dealer
+				player.addToBalance(pot_balance * 2);
+			}
 			rootLayout.lblThePot.setText(winner.name + " won!");
 		}
+		pot_balance = 0;
 
 		// enable the controls to allow the player to start a new hand
 		rootLayout.vbGameControls.setVisible(true);
@@ -242,7 +284,8 @@ public class GameManager {
 	}
 
 	// returns null if hand is a push (draw), else return the GamePlayer object
-	// - this is quite verbose as I wanted to ensure that all corner cases are covered
+	// - this is quite verbose as I wanted to ensure that all corner cases are
+	// covered
 	public static GamePlayer compareScores() {
 
 		// first check for blackjacks
@@ -289,9 +332,9 @@ public class GameManager {
 				// compare the scores - check if player has higher score
 				if (player.getHand().getScore() > game_dealer.getHand().getScore()) {
 					// player has won
-					return player;	
-				} 
-				// check if dealer has higher  score
+					return player;
+				}
+				// check if dealer has higher score
 				else if (player.getHand().getScore() < game_dealer.getHand().getScore()) {
 					// dealer has won
 					return game_dealer;

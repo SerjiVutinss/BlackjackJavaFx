@@ -13,6 +13,7 @@ public class InputPanel extends VBox {
 	HBox hbButtons;
 	Button btnStand;
 	Button btnHit;
+	Button btnDouble;
 
 	public InputPanel(GamePlayerWrapper gamePlayerWrapper) {
 
@@ -37,7 +38,7 @@ public class InputPanel extends VBox {
 		});
 
 		// add the Hit button and add it to the container
-		this.btnHit = new Button("Hit");
+		this.btnHit = new Button();
 		this.btnHit.setText("Hit!");
 		this.hbButtons.getChildren().add(btnHit);
 
@@ -52,7 +53,24 @@ public class InputPanel extends VBox {
 			}
 		});
 
+		// create the Double button and add it to the container
+		this.btnDouble= new Button();
+		this.btnDouble.setText("Double");
+		this.hbButtons.getChildren().add(btnDouble);
+
+		// set the Hit button event handler
+		btnDouble.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+
+				// handle the hit event
+				GameManager.handleDouble(gamePlayerWrapper);
+			}
+		});
+
 		// add the button container (HBox) to this component
 		this.getChildren().add(this.hbButtons);
+
 	}
 }
