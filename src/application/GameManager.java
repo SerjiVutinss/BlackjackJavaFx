@@ -33,6 +33,8 @@ public class GameManager {
 	// used to store the built game deck - could be any number of decks
 	// the game deck is shuffled at the start of a new game but not a new round
 	public static ArrayList<Card> game_deck;
+	// cards will be shuffled once this number is met
+	public static int MIN_DECK_SIZE = 52;
 
 	// the actual hands in each round
 	public static ArrayList<HandWrapper> game_hands;
@@ -71,7 +73,7 @@ public class GameManager {
 		number_of_decks = numDecks;
 		// set up the list variables with static data
 		this.setUpSuits();
-//		this.setUpDealers();
+		// this.setUpDealers();
 	}
 
 	// method to start a new game
@@ -165,6 +167,11 @@ public class GameManager {
 
 	// clear the players' hands and deal new ones
 	public void newHand() {
+		// first check the MIN_DECK_SIZE condition
+		if (game_deck.size() < MIN_DECK_SIZE) {
+			this.setupDeck();
+		}
+
 		game_dealer.setHand(new Hand());
 		player.setHand(new Hand());
 		rootLayout.lblThePot.setText("New Hand");
@@ -177,7 +184,7 @@ public class GameManager {
 		// add a new card to the
 		gamePlayerWrapper.gamePlayer.addCardToHand(game_deck.get(0));
 		game_deck.remove(0);
-		//gamePlayerWrapper.update();
+		// gamePlayerWrapper.update();
 		gamePlayerWrapper.handWrapper.update();
 	}
 
@@ -214,12 +221,12 @@ public class GameManager {
 		pot_balance += pot_balance;
 		// update the UI element
 		rootLayout.lblPotBalance.setText(String.valueOf(pot_balance));
-		
+
 		// deal the player a card
 		GameManager.dealCard(gamePlayerWrapper);
 		// and then stand
 		handleStand(gamePlayerWrapper);
-//		gamePlayerWrapper.update();
+		// gamePlayerWrapper.update();
 	}
 
 	// the event where the player stands
@@ -227,7 +234,7 @@ public class GameManager {
 		// handle the stand event
 		if (gamePlayerWrapper.getClass() == SeatedPlayerWrapper.class) {
 			// player has stood, end their turn, so disable the input panel buttons
-			gamePlayerWrapper.inputPanel.setButtonsVisible(false);			
+			gamePlayerWrapper.inputPanel.setButtonsVisible(false);
 			try {
 				// and handle the dealer's turn
 				handleDealerTurn();
@@ -245,25 +252,32 @@ public class GameManager {
 		// turn the dealer's hole card
 		dealerWrapper.update();
 
-		// check the dealer's score and keeping hitting if it is still below 17
-		while (dealerWrapper.gamePlayer.getHand().getScore() < Dealer.MUST_EQUAL) {
-			// // give the dealer a card
-			// dealerWrapper.gamePlayer.addCardToHand(GameManager.game_deck.get(0));
-			// // remove that card from the deck
-			// GameManager.game_deck.remove(0);
-			// // update the hand UI component
-			// dealerWrapper.handWrapper.update();
-			// // and update the dealer UI component
-//			dealerWrapper.update();
+		GamePlayer winner;
+		// if the player has bust, the dealer does not need to hit since the player is out of the game
+		if (player.getHand().isBust) {
+			winner = game_dealer;
+		} else {
 
-			// code above is not necessary since refactoring method dealCard()
-			GameManager.dealCard(dealerWrapper);
+			// check the dealer's score and keeping hitting if it is still below 17
+			while (dealerWrapper.gamePlayer.getHand().getScore() < Dealer.MUST_EQUAL) {
+				// // give the dealer a card
+				// dealerWrapper.gamePlayer.addCardToHand(GameManager.game_deck.get(0));
+				// // remove that card from the deck
+				// GameManager.game_deck.remove(0);
+				// // update the hand UI component
+				// dealerWrapper.handWrapper.update();
+				// // and update the dealer UI component
+				// dealerWrapper.update();
+
+				// code above is not necessary since refactoring method dealCard()
+				GameManager.dealCard(dealerWrapper);
+			}
+
+			dealerWrapper.update();
+			
+			winner = compareScores();
 		}
-
-		dealerWrapper.update();
-
 		// set the new variable winner to the winning player, or null if it is a draw
-		GamePlayer winner = compareScores();
 
 		// do something with the winner
 		// TODO: implement the money aspect of this
@@ -279,9 +293,9 @@ public class GameManager {
 			rootLayout.lblThePot.setText(winner.name + " won!");
 		}
 		pot_balance = 0;
-		
+
 		// check to see if the game is over
-		if(player.getBalance() < BET_SIZE) {
+		if (player.getBalance() < BET_SIZE) {
 			// game is over
 			rootLayout.gameOver();
 		}
@@ -367,13 +381,13 @@ public class GameManager {
 		GameManager.suitList.add("diamonds");
 	}
 
-//	private void setUpDealers() {
-//		GameManager.dealers = new ArrayList<Dealer>();
-//		GameManager.dealers.add(new Dealer("Jack P."));
-//		GameManager.dealers.add(new Dealer("Bob S."));
-//		GameManager.dealers.add(new Dealer("Bob W."));
-//		GameManager.dealers.add(new Dealer("Pablo R."));
-//		GameManager.dealers.add(new Dealer("William H."));
-//	}
+	// private void setUpDealers() {
+	// GameManager.dealers = new ArrayList<Dealer>();
+	// GameManager.dealers.add(new Dealer("Jack P."));
+	// GameManager.dealers.add(new Dealer("Bob S."));
+	// GameManager.dealers.add(new Dealer("Bob W."));
+	// GameManager.dealers.add(new Dealer("Pablo R."));
+	// GameManager.dealers.add(new Dealer("William H."));
+	// }
 
 }
