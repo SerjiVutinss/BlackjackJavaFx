@@ -255,9 +255,11 @@ public class GameManager {
 		GamePlayer winner;
 		// if the player has bust, the dealer does not need to hit since the player is out of the game
 		if (player.getHand().isBust) {
+			// so just set the winner to the dealer
 			winner = game_dealer;
+			
 		} else {
-
+			// otherwise, player has not bust, so...
 			// check the dealer's score and keeping hitting if it is still below 17
 			while (dealerWrapper.gamePlayer.getHand().getScore() < Dealer.MUST_EQUAL) {
 				// // give the dealer a card
